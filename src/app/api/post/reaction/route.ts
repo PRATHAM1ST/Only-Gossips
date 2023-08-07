@@ -139,6 +139,11 @@ export async function DELETE(req: Request) {
         const currentPostReactions = await prisma.post.findUnique({
             where: {
                 id: postId,
+                reactions:{
+                    has: {
+                        userId: reaction.userId,
+                    }
+                }
             },
             select: {
                 reactions: true,
@@ -148,13 +153,18 @@ export async function DELETE(req: Request) {
         const currentUserReactions = await prisma.user.findUnique({
             where: {
                 id: reaction.userId,
+                reactions:{
+                    has: {
+                        postId: postId,
+                    }
+                }
             },
             select: {
                 reactions: true,
             },
         });
 
-        if (!currentPostReactions?.reactions.length && !currentUserReactions?.reactions.length){
+        if (!currentPostReactions && !currentUserReactions){
             return NextResponse.json({
                 success: false,
                 message: "No reactions found",
