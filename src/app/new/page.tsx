@@ -1,68 +1,66 @@
-// "use client";
+"use client";
 
-// import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import Header from "../components/Header";
 
 export default function New() {
-	// const [gossip, setGossip] = useState("");
-    // const [selection, setSelection] = useState({ start: 0, end: 0 });
+	const [reactions, setReactions] = useState([]);
+	const [gossip, setGossip] = useState("");
 
-	// const handleSelection = () => {
-	// 	const selection = window.getSelection();
-	// 	if (typeof selection?.anchorOffset === "number" && typeof selection?.focusOffset === "number" && selection?.anchorOffset !== selection?.focusOffset){
-    //         setSelection({
-    //             start: selection?.anchorOffset,
-    //             end: selection?.focusOffset,
-    //         });
-    //     }
+	useEffect(() => {
+		fetch("http://localhost:3000/api/reaction")
+			.then((res) => {
+				if (!res.ok) {
+					throw new Error("Failed to fetch data");
+				}
 
-	// };
+				return res.json();
+			})
+			.then((data) => {
+				setReactions(data);
+			});
+	}, []);
 
-	// useEffect(() => {
-	// 	document.addEventListener("selectionchange", handleSelection);
-	// 	return () => {
-	// 		document.removeEventListener("selectionchange", handleSelection);
-	// 	};
-	// }, []);
+	function handleSubmit(e: any) {
+		e.preventDefault();
+		const formData = new FormData(e.target);
+		const title = formData.get("title");
+		const emojie = formData.get("emojie");
 
-    // console.log('selection', selection);
-	// const handleBold = () => {
-	// 	if (!handleSelection) return;
-	// 	setGossip(
-	// 		gossip.slice(0, selection?.start) +
-	// 			"<strong>" +
-	// 			gossip.slice(selection?.start, selection?.end) +
-	// 			"</strong>" +
-	// 			gossip.slice(selection?.end)
-	// 	);
-	// };
+		const data = {
+			title: title,
+			content: gossip,
+			backgroundEmoji: emojie,
+			userId: localStorage.getItem("userId"),
+		};
 
-	// const handleItalic = () => {
-	// 	if (!handleSelection) return;
-	// 	setGossip(
-	// 		gossip.slice(0, selection?.start) +
-	// 			"<i>" +
-	// 			gossip.slice(selection?.start, selection?.end) +
-	// 			"</i>" +
-	// 			gossip.slice(selection?.end)
-	// 	);
-	// };
+		console.log("data", data);
 
-	// const handleUnderline = () => {
-	// 	if (!handleSelection) return;
-	// 	setGossip(
-	// 		gossip.slice(0, selection?.start) +
-	// 			"<u>" +
-	// 			gossip.slice(selection?.start, selection?.end) +
-	// 			"</u>" +
-	// 			gossip.slice(selection?.end)
-	// 	);
-	// };
+		fetch("http://localhost:3000/api/post/create", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		}).then((res) => {
+			if (!res.ok) {
+				throw new Error("Failed to fetch data");
+			}
+			setGossip("");
+			e.target.reset();
+			window.location.href = "/";
+		});
+	}
 
 	return (
-		<div className="container mx-auto px-4">
-			<Header />
-			<form className="grid gap-3">
+		<div className="container mx-auto px-4 max-w-4xl">
+			<Header removeAdder={true}/>
+			<form
+				className="grid gap-3 max-w-2xl mx-auto"
+				onSubmit={handleSubmit}
+			>
 				<div className="input grid">
 					<label htmlFor="title">Title of the Gossip</label>
 					<input
@@ -75,39 +73,39 @@ export default function New() {
 				</div>
 				<div className="input grid gap-1">
 					<label htmlFor="gossip">Gossip</label>
-					<div className="grid grid-cols-3 gap-2">
-						<button
-							className="bg-black text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-slate-900"
-							// onClick={handleBold}
-							type="button"
-						>
-							Bold
-						</button>
-						<button
-							className="bg-black text-white rounded-md px-2 text-xs italic h-fit py-1 hover:bg-slate-900"
-							// onClick={handleItalic}
-							type="button"
-						>
-							Italic
-						</button>
-						<button
-							className="bg-black text-white rounded-md px-2 text-xs underline h-fit py-1 hover:bg-slate-900"
-							// onClick={handleUnderline}
-							type="button"
-						>
-							Underline
-						</button>
-					</div>
-					<textarea
-						id="gossip"
-						className="border-2 border-black rounded px-4 py-2 h-64"
-						data-title="Gossip"
-						name="gossip"
-						// value={gossip}
-						// onChange={(e) => setGossip(e.target.value)}
+					<ReactQuill
+						className="rounded h-64 mb-16 first:border-2"
+						theme="snow"
+						value={gossip}
+						onChange={setGossip}
 					/>
 				</div>
-				<div className="emojie-selection"></div>
+				<div className="emojie-selection">
+					{reactions.map((reaction: any, idx: number) => (
+						<>
+							<label
+								className={`text-3xl cursor-pointer peer-checked/${reaction.id.replace(
+									/[0-9]/g,
+									""
+								)}:text-lg`}
+								htmlFor={reaction.id.replace(/[0-9]/g, "")}
+							>
+								{reaction.emojie}
+							</label>
+							<input
+								key={reaction.id}
+								id={reaction.id.replace(/[0-9]/g, "")}
+								className={
+									"peer/" + reaction.id.replace(/[0-9]/g, "")
+								}
+								type="radio"
+								name="emojie"
+								defaultChecked={idx === 0}
+								value={reaction.emojie}
+							/>
+						</>
+					))}
+				</div>
 				<button
 					className="bg-black text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-slate-900"
 					type="submit"
