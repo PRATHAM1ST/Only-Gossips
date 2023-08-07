@@ -6,14 +6,13 @@ import "react-quill/dist/quill.snow.css";
 import { Oooh_Baby } from "next/font/google";
 import Link from "next/link";
 
-const oooh_baby = Oooh_Baby({
-	subsets: ["latin"],
-	weight: "400",
-});
-
 export default function New() {
 	const [reactions, setReactions] = useState([]);
 	const [gossip, setGossip] = useState("");
+	const oooh_baby = Oooh_Baby({
+		subsets: ["latin"],
+		weight: "400",
+	});
 
 	useEffect(() => {
 		fetch("http://localhost:3000/api/reaction")
