@@ -4,6 +4,13 @@ import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Header from "../components/Header";
+import { Oooh_Baby } from "next/font/google";
+import Link from "next/link";
+
+const oooh_baby = Oooh_Baby({
+	subsets: ["latin"],
+	weight: "400",
+});
 
 export default function New() {
 	const [reactions, setReactions] = useState([]);
@@ -56,7 +63,11 @@ export default function New() {
 
 	return (
 		<div className="container mx-auto px-4 max-w-4xl">
-			<Header removeAdder={true}/>
+			<header className="flex justify-between items-center my-5">
+				<Link href="/" className={oooh_baby.className + " text-3xl"}>
+					Goosip
+				</Link>
+			</header>
 			<form
 				className="grid gap-3 max-w-2xl mx-auto"
 				onSubmit={handleSubmit}
