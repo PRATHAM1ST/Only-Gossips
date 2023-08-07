@@ -16,8 +16,21 @@ export async function POST(req: Request) {
                 connect: {
                     id: userId,
                 }
-            }
+            },
         }
     });
+
+    const user = await prisma.user.update({
+        where: {
+            id: userId
+        },
+        data: {
+            posts: {
+                connect: {
+                    id: result.id
+                }
+            }
+        }
+    })
     return NextResponse.json(result);
 }
