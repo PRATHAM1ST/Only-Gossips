@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Header from "../components/Header";
 import { Oooh_Baby } from "next/font/google";
 import Link from "next/link";
 
