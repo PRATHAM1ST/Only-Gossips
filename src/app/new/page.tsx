@@ -9,10 +9,6 @@ import Link from "next/link";
 export default function New() {
 	const [reactions, setReactions] = useState([]);
 	const [gossip, setGossip] = useState("");
-	const oooh_baby = Oooh_Baby({
-		subsets: ["latin"],
-		weight: "400",
-	});
 
 	useEffect(() => {
 		fetch("http://localhost:3000/api/reaction")
@@ -62,7 +58,7 @@ export default function New() {
 	return (
 		<div className="container mx-auto px-4 max-w-4xl">
 			<header className="flex justify-between items-center my-5">
-				<Link href="/" className={oooh_baby.className + " text-3xl"}>
+				<Link href="/" className={" text-3xl"}>
 					Goosip
 				</Link>
 			</header>
