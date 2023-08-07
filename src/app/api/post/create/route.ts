@@ -3,8 +3,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-type Request = { json: () => Promise<{ title: string, content: string, backgroundEmoji: string, userId: string }> };
-
 export async function POST(req: Request) {
     const { title, content, backgroundEmoji, userId } = await req.json();
     const result = await prisma.post.create({
