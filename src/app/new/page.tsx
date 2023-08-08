@@ -5,7 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Link from "next/link";
 import { inter, oooh_baby } from "../fonts";
-import { getReactions } from "@/components/getReactions";
+import { getReactions } from "@/utils/getReactions";
 
 type Reactions = {
 	id: string;
