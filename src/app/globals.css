@@ -18,9 +18,15 @@
 .add-reaction > label{
     opacity: 0 !important;
     user-select: none !important;
+	height: 0 !important;
+	width: 0 !important;
+	display: none !important;
 }
 
 .add-reaction:hover > label{
 	opacity: 100 !important;
     user-select: auto !important;
+	height: fit-content !important;
+	width: fit-content !important;
+	display: flex !important;
 }

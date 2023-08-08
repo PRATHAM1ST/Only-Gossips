@@ -7,9 +7,9 @@ import { increasePostViewCount } from "@/utils/increasePostViewCount";
 
 export default async function Home() {
 	const gossips: GossipsType[] = await getGossips();
-	const reactions: ReactionsType[]  = await getReactions();
+	const reactions: ReactionsType[] = await getReactions();
 
-	const gossipIds = gossips.map((gossip: GossipsType) => gossip.id);
+	// const gossipIds = gossips.map((gossip: GossipsType) => gossip.id);
 	// await increasePostViewCount(gossipIds);
 
 	return (
@@ -51,11 +51,11 @@ export default async function Home() {
 							Report
 						</button>
 						<div className="stats font-bold text-neutral-500 text-xs">
-							{gossip.views + 1} Views {"•"} {gossip.totalReactions}{" "}
-							Reactions
+							{gossip.views + 1} Views {"•"}{" "}
+							{gossip.totalReactions} Reactions
 						</div>
 						<div
-							className="reactions flex text-2xl items-center justify-center"
+							className="reactions flex text-2xl items-center justify-center z-10"
 							style={{
 								gap: "-15rem",
 							}}
@@ -70,19 +70,21 @@ export default async function Home() {
 									</div>
 								)
 							)}
-							<div className="relative add-reaction bg-black text-white rounded-full w-8 h-8 flex justify-center items-center cursor-pointer ease-in-out duration-300">
-								
-								<label className="flex absolute right-0 top-0 -translate-y-full px-4 py-2 rounded-lg shadow-xl z-20 ease-in-out duration-300">
-									{
-										reactions.map((reaction: ReactionsType) => (
-											<span key={reaction.id} className="cursor-pointer">
+							<div className="relative add-reaction bg-black text-white rounded-full w-8 h-8 flex items-center cursor-pointer z-10">
+								<label className="px-4 py-2 rounded-lg shadow-xl bg-white z-20 justify-self-start -translate-x-full">
+									{reactions.map(
+										(reaction: ReactionsType) => (
+											<span
+												key={reaction.id}
+												className="cursor-pointer hover:text-5xl ease-in-out duration-100 align-baseline"
+											>
 												{reaction.emojie}
 											</span>
-										))
-									}
+										)
+									)}
 								</label>
 
-								<AddOutlinedIcon />
+								<AddOutlinedIcon className="m-auto" />
 							</div>
 						</div>
 					</div>
