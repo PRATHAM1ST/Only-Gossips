@@ -7,8 +7,7 @@
 	border: none !important;
 }
 
-.ql-toolbar, 
-.ql-snow {
+.ql-toolbar.ql-snow {
 	border: none !important;
 	border-bottom: inherit !important;
 	height: fit-content !important;
