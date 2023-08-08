@@ -65,6 +65,12 @@ export default function New() {
 				<Link href="/" className={oooh_baby.className + " text-3xl"}>
 					Goosip
 				</Link>
+				<Link
+					href="/"
+					className="bg-red-500 text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-red-900"
+				>
+					Cancel
+				</Link>
 			</header>
 			<form
 				className="grid gap-3 max-w-2xl mx-auto"
