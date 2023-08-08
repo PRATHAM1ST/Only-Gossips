@@ -39,20 +39,20 @@ export default function New() {
 
 		console.log("data", data);
 
-		// fetch("http://localhost:3000/api/post/create", {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify(data),
-		// }).then((res) => {
-		// 	if (!res.ok) {
-		// 		throw new Error("Failed to fetch data");
-		// 	}
-		// 	setGossip("");
-		// 	e.target.reset();
-		// 	window.location.href = "/";
-		// });
+		fetch("/api/post/create", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		}).then((res) => {
+			if (!res.ok) {
+				throw new Error("Failed to fetch data");
+			}
+			setGossip("");
+			e.target.reset();
+			window.location.href = "/";
+		});
 	}
 
 	const handleChecked = (e: any) => {
