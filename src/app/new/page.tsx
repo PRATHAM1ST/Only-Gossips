@@ -5,7 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Link from "next/link";
 import { inter, oooh_baby } from "../fonts";
-import { FetchReactions } from "@/components/FetchReactions";
+import { getReactions } from "@/components/getReactions";
 
 type Reactions = {
 	id: string;
@@ -18,7 +18,7 @@ export default function New() {
 	const [emojie, setEmojie] = useState(0);
 
 	useEffect(() => {
-		FetchReactions().then((data: Reactions[]) => {
+		getReactions().then((data: Reactions[]) => {
 			setReactions(data);
 		});
 	}, []);

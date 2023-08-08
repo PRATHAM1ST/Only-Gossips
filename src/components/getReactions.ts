@@ -4,7 +4,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function FetchReactions() {
+export type ReactionsType = {
+    id: string;
+    emojie: string;
+};
+
+export async function getReactions() {
 	return prisma.reaction.findMany({
         select: {
             id: true,
