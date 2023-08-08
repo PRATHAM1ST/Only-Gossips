@@ -5,24 +5,22 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Link from "next/link";
 import { inter, oooh_baby } from "../fonts";
+import { FetchReactions } from "@/components/FetchReactions";
+
+type Reactions = {
+	id: string;
+	emojie: string;
+};
 
 export default function New() {
-	const [reactions, setReactions] = useState([]);
+	const [reactions, setReactions] = useState<Reactions[]>();
 	const [gossip, setGossip] = useState("");
 	const [emojie, setEmojie] = useState(0);
 
 	useEffect(() => {
-		fetch("http://localhost:3000/api/reaction")
-			.then((res) => {
-				if (!res.ok) {
-					throw new Error("Failed to fetch data");
-				}
-
-				return res.json();
-			})
-			.then((data) => {
-				setReactions(data);
-			});
+		FetchReactions().then((data: Reactions[]) => {
+			setReactions(data);
+		});
 	}, []);
 
 	function handleSubmit(e: any) {
@@ -73,7 +71,9 @@ export default function New() {
 				onSubmit={handleSubmit}
 			>
 				<div className="input grid">
-					<label htmlFor="title">Title of the Gossip</label>
+					<label htmlFor="title" className="font-bold">
+						Title of the Gossip
+					</label>
 					<input
 						id="title"
 						type="text"
@@ -84,7 +84,9 @@ export default function New() {
 					/>
 				</div>
 				<div className="input grid gap-1">
-					<label htmlFor="gossip">Gossip</label>
+					<label htmlFor="gossip" className="font-bold">
+						Gossip
+					</label>
 					<ReactQuill
 						className={
 							inter.className +
@@ -97,30 +99,34 @@ export default function New() {
 					/>
 				</div>
 				<div className="emojie-selection">
-					<label htmlFor="gossip">Background Reaction</label>
+					<label htmlFor="gossip" className="font-bold">
+						Background Reaction
+					</label>
 					<div className="flex gap-3 my-4">
-					{reactions.map((reaction: any, idx: number) => (
-						<span key={reaction.id}>
-							<label
-								className={`cursor-pointer ${
-									emojie === idx ? "text-3xl border-2 border-black rounded-full p-1" : "text-lg"
-								}`}
-								htmlFor={reaction.id}
-							>
-								{reaction.emojie}
-							</label>
-							<input
-								key={reaction.id}
-								id={reaction.id}
-								className="peer hidden"
-								type="radio"
-								name="emojie"
-								checked={emojie === idx}
-								onChange={() => setEmojie(idx)}
-								value={reaction.emojie}
-							/>
-						</span>
-					))}
+						{reactions?.map((reaction: any, idx: number) => (
+							<span key={reaction.id}>
+								<label
+									className={`cursor-pointer ${
+										emojie === idx
+											? "text-3xl border-2 border-black rounded-full p-1"
+											: "text-lg"
+									}`}
+									htmlFor={reaction.id}
+								>
+									{reaction.emojie}
+								</label>
+								<input
+									key={reaction.id}
+									id={reaction.id}
+									className="peer hidden"
+									type="radio"
+									name="emojie"
+									checked={emojie === idx}
+									onChange={() => setEmojie(idx)}
+									value={reaction.emojie}
+								/>
+							</span>
+						))}
 					</div>
 				</div>
 				<button
