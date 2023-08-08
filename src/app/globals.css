@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ql-container {
+    font-family: inherit !important;
+    border: none !important;
+}
+
+.ql-toolbar.ql-snow {
+    border: none !important;
+    border-bottom: inherit !important;
+    height: fit-content !important;
+    /* border-radius: inherit !important; */
+}

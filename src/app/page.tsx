@@ -1,4 +1,4 @@
-import Header from "./components/Header";
+import Header from "../components/Header";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 

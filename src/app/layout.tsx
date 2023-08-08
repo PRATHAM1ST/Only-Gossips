@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import AuthSetter from './components/AuthSetter'
+import { Inter, Oooh_Baby } from 'next/font/google'
+import AuthSetter from '../components/AuthSetter'
 
 const inter = Inter({ subsets: ['latin'] })
 

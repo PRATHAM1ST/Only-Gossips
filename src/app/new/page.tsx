@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { Oooh_Baby } from "next/font/google";
 import Link from "next/link";
+import { inter, oooh_baby } from "../fonts";
 
 export default function New() {
 	const [reactions, setReactions] = useState([]);
 	const [gossip, setGossip] = useState("");
+	const [emojie, setEmojie] = useState(0);
 
 	useEffect(() => {
 		fetch("http://localhost:3000/api/reaction")
@@ -26,39 +27,44 @@ export default function New() {
 
 	function handleSubmit(e: any) {
 		e.preventDefault();
-		const formData = new FormData(e.target);
-		const title = formData.get("title");
-		const emojie = formData.get("emojie");
+		const formData = new FormData();
+		formData.append("title", e.target.title.value);
+		formData.append("emojie", e.target.emojie.value);
+		formData.append("gossip", gossip);
 
 		const data = {
-			title: title,
+			title: formData.get("title"),
 			content: gossip,
-			backgroundEmoji: emojie,
+			backgroundEmoji: formData.get("emojie"),
 			userId: localStorage.getItem("userId"),
 		};
 
 		console.log("data", data);
 
-		fetch("http://localhost:3000/api/post/create", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		}).then((res) => {
-			if (!res.ok) {
-				throw new Error("Failed to fetch data");
-			}
-			setGossip("");
-			e.target.reset();
-			window.location.href = "/";
-		});
+		// fetch("http://localhost:3000/api/post/create", {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "application/json",
+		// 	},
+		// 	body: JSON.stringify(data),
+		// }).then((res) => {
+		// 	if (!res.ok) {
+		// 		throw new Error("Failed to fetch data");
+		// 	}
+		// 	setGossip("");
+		// 	e.target.reset();
+		// 	window.location.href = "/";
+		// });
 	}
+
+	const handleChecked = (e: any) => {
+		console.log("e", e.target.value);
+	};
 
 	return (
 		<div className="container mx-auto px-4 max-w-4xl">
 			<header className="flex justify-between items-center my-5">
-				<Link href="/" className={" text-3xl"}>
+				<Link href="/" className={oooh_baby.className + " text-3xl"}>
 					Goosip
 				</Link>
 			</header>
@@ -74,42 +80,48 @@ export default function New() {
 						className="border-2 border-black rounded px-4 py-1"
 						data-title="Title of the Gossip"
 						name="title"
+						required
 					/>
 				</div>
 				<div className="input grid gap-1">
 					<label htmlFor="gossip">Gossip</label>
 					<ReactQuill
-						className="rounded h-64 mb-16 first:border-2"
+						className={
+							inter.className +
+							" border-2 border-black rounded h-64 first:border-2 relative flex flex-col"
+						}
 						theme="snow"
 						value={gossip}
 						onChange={setGossip}
+						placeholder="Write your gossip here..."
 					/>
 				</div>
 				<div className="emojie-selection">
+					<label htmlFor="gossip">Background Reaction</label>
+					<div className="flex gap-3 my-4">
 					{reactions.map((reaction: any, idx: number) => (
-						<>
+						<span key={reaction.id}>
 							<label
-								className={`text-3xl cursor-pointer peer-checked/${reaction.id.replace(
-									/[0-9]/g,
-									""
-								)}:text-lg`}
-								htmlFor={reaction.id.replace(/[0-9]/g, "")}
+								className={`cursor-pointer ${
+									emojie === idx ? "text-3xl border-2 border-black rounded-full p-1" : "text-lg"
+								}`}
+								htmlFor={reaction.id}
 							>
 								{reaction.emojie}
 							</label>
 							<input
 								key={reaction.id}
-								id={reaction.id.replace(/[0-9]/g, "")}
-								className={
-									"peer/" + reaction.id.replace(/[0-9]/g, "")
-								}
+								id={reaction.id}
+								className="peer hidden"
 								type="radio"
 								name="emojie"
-								defaultChecked={idx === 0}
+								checked={emojie === idx}
+								onChange={() => setEmojie(idx)}
 								value={reaction.emojie}
 							/>
-						</>
+						</span>
 					))}
+					</div>
 				</div>
 				<button
 					className="bg-black text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-slate-900"
