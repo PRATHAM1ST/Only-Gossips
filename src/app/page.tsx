@@ -1,25 +1,41 @@
 import Header from "../components/Header";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+type GossipType = {
+	id: string;
+	title: string;
+	content: string;
+	backgroundEmoji: string;
+	views: number;
+	totalReactions: number;
+	reactions?: any[];
+};
 
 async function getGossips() {
-	const res = await fetch("http://localhost:3000/api/post", {
-		next:{
-			revalidate: 10,
+	return await prisma.post.findMany({
+		select :{
+			id: true,
+			title: true,
+			content: true,
+			backgroundEmoji: true,
+			views: true,
+			totalReactions: true,
+			reactions: true,
 		}
 	});
-	if (!res.ok) throw new Error("Failed to fetch data");
-	const data = await res.json();
-	return data;
 }
 
 export default async function Home() {
-	const gossips: [] = await getGossips();
+	const gossips: GossipType[] = await getGossips();
 
 	return (
 		<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
 			<Header />
-			{gossips.map((gossip: any) => (
+			{gossips?.map((gossip: any) => (
 				<div
 					key={gossip.id}
 					className="container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto"

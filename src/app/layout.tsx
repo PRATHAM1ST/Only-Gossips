@@ -1,9 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter, Oooh_Baby } from 'next/font/google'
 import AuthSetter from '../components/AuthSetter'
-
-const inter = Inter({ subsets: ['latin'] })
+import { inter } from './fonts'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
