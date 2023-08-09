@@ -1,14 +1,13 @@
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
 import { GossipsType, getGossips } from "@/utils/getGossips";
 import { increasePostViewCount } from "@/utils/increasePostViewCount";
 
-export default async function Home() {
-
+export default async function Home({ params }: { params: { page: number } }) {
 	const gossips: GossipsType[] = await getGossips({
-		pageNumber: 1,
+		pageNumber: params.page,
 	});
 	const reactions: ReactionsType[] = await getReactions();
 
