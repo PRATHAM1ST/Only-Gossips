@@ -6,6 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import Link from "next/link";
 import { inter, oooh_baby } from "../fonts";
 import { getReactions } from "@/utils/getReactions";
+import { RequestType, createPost } from "@/utils/createPost";
 
 type Reactions = {
 	id: string;
@@ -14,45 +15,48 @@ type Reactions = {
 
 export default function New() {
 	const [reactions, setReactions] = useState<Reactions[]>();
-	const [gossip, setGossip] = useState("");
-	const [emojie, setEmojie] = useState(0);
+	const [gossip, setGossip] = useState<string>("");
+	const [emojie, setEmojie] = useState<number>(0);
+	const [postingDataLoading, setPostingDataLoading] =
+		useState<boolean>(false);
 
 	useEffect(() => {
 		getReactions().then((data: Reactions[]) => {
-			setReactions(data);
+			// setReactions(data);
 		});
 	}, []);
 
-	function handleSubmit(e: any) {
-		e.preventDefault();
-		const formData = new FormData();
-		formData.append("title", e.target.title.value);
-		formData.append("emojie", e.target.emojie.value);
-		formData.append("gossip", gossip);
+	function handleSubmit(formData: FormData) {
+		setPostingDataLoading(true);
+		const title = String(formData.get("title"));
+		const content = gossip;
+		const backgroundEmoji = String(formData.get("emojie"));
+		const userId = String(localStorage.getItem("userId"));
 
-		const data = {
-			title: formData.get("title"),
-			content: gossip,
-			backgroundEmoji: formData.get("emojie"),
-			userId: localStorage.getItem("userId"),
+		const data: RequestType = {
+			title,
+			content,
+			backgroundEmoji,
+			userId,
 		};
 
-		console.log("data", data);
+		createPost(data)
+			.then((res) => {
+				if (!res.sucess) {
+					throw res.message;
+				}
+				formData.delete("title");
+				formData.delete("emojie");
+				setGossip("");
 
-		fetch("/api/post/create", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		}).then((res) => {
-			if (!res.ok) {
-				throw new Error("Failed to fetch data");
-			}
-			setGossip("");
-			e.target.reset();
-			window.location.href = "/";
-		});
+				window.location.href = "/";
+			})
+			.catch((err) => {
+				console.log("err", err);
+			})
+			.finally(() => {
+				setPostingDataLoading(false);
+			});
 	}
 
 	const handleChecked = (e: any) => {
@@ -73,8 +77,12 @@ export default function New() {
 				</Link>
 			</header>
 			<form
-				className="grid gap-3 max-w-2xl mx-auto"
-				onSubmit={handleSubmit}
+				className={`grid gap-3 max-w-2xl mx-auto ${
+					postingDataLoading
+						? "cursor-not-allowed select-none animate-pulse"
+						: ""
+				}`}
+				action={handleSubmit}
 			>
 				<div className="input grid">
 					<label htmlFor="title" className="font-bold">
@@ -86,6 +94,7 @@ export default function New() {
 						className="border-2 border-black rounded px-4 py-1"
 						data-title="Title of the Gossip"
 						name="title"
+						disabled={postingDataLoading}
 						required
 					/>
 				</div>
@@ -94,10 +103,13 @@ export default function New() {
 						Gossip
 					</label>
 					<ReactQuill
-						className={
-							inter.className +
-							" border-2 border-black rounded h-64 first:border-2 relative flex flex-col"
-						}
+						className={`${
+							inter.className
+						} border-2 border-black rounded h-64 first:border-2 relative flex flex-col ${
+							postingDataLoading
+								? "cursor-not-allowed select-none"
+								: ""
+						}`}
 						theme="snow"
 						value={gossip}
 						onChange={setGossip}
@@ -109,34 +121,44 @@ export default function New() {
 						Background Reaction
 					</label>
 					<div className="flex gap-3 my-4">
-						{reactions?.map((reaction: any, idx: number) => (
-							<span key={reaction.id}>
-								<label
-									className={`cursor-pointer ${
-										emojie === idx
-											? "text-3xl border-2 border-black rounded-full p-1"
-											: "text-lg"
-									}`}
-									htmlFor={reaction.id}
-								>
-									{reaction.emojie}
-								</label>
-								<input
-									key={reaction.id}
-									id={reaction.id}
-									className="peer hidden"
-									type="radio"
-									name="emojie"
-									checked={emojie === idx}
-									onChange={() => setEmojie(idx)}
-									value={reaction.emojie}
-								/>
-							</span>
-						))}
+						{reactions ? (
+							reactions.map((reaction: any, idx: number) => (
+								<span key={reaction.id}>
+									<label
+										className={`cursor-pointer ${
+											emojie === idx
+												? "text-3xl border-2 border-black rounded-full p-1"
+												: "text-lg"
+										}`}
+										htmlFor={reaction.id}
+									>
+										{reaction.emojie}
+									</label>
+									<input
+										key={reaction.id}
+										id={reaction.id}
+										className="peer hidden"
+										type="radio"
+										name="emojie"
+										checked={emojie === idx}
+										onChange={() => setEmojie(idx)}
+										value={reaction.emojie}
+										disabled={postingDataLoading}
+									/>
+								</span>
+							))
+						) : (
+							<div className="animate-pulse flex gap-3 my-3">
+								<div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+								<div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+								<div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+								<div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+							</div>
+						)}
 					</div>
 				</div>
 				<button
-					className="bg-black text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-slate-900"
+					className={`bg-black text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-slate-900`}
 					type="submit"
 				>
 					Submit
