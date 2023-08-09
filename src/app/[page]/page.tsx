@@ -1,16 +1,14 @@
 import Header from "../../components/Header";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { ReactionsType, getReactions } from "@/utils/getReactions";
 import { GossipsType, getGossips } from "@/utils/getGossips";
 import { increasePostViewCount } from "@/utils/increasePostViewCount";
 import Pagination from "@/components/Pagination";
+import ReactionAdder from "@/components/ReactionAdder";
 
 export default async function Home({ params }: { params: { page: number } }) {
 	const gossips: GossipsType[] = await getGossips({
 		pageNumber: params.page,
 	});
-	const reactions: ReactionsType[] = await getReactions();
 
 	if (process.env.NODE_ENV !== "development") {
 		const gossipIds = gossips.map((gossip: GossipsType) => gossip.id);
@@ -74,29 +72,14 @@ export default async function Home({ params }: { params: { page: number } }) {
 							{gossip.reactions.map(
 								(reaction: any, idx: number) => (
 									<div
-										className="reaction bg-black text-white rounded-full w-8 h-8 flex justify-center items-center"
+										// className="reaction bg-black text-white rounded-full w-8 h-8 flex justify-center items-center"
 										key={idx}
 									>
-										{reaction.emoji}
+										{reaction.emojie}
 									</div>
 								)
 							)}
-							<div className="relative add-reaction bg-black text-white rounded-full w-8 h-8 flex items-center cursor-pointer z-10">
-								<label className="px-4 py-2 rounded-lg shadow-xl bg-white z-20 justify-self-start -translate-x-full">
-									{reactions.map(
-										(reaction: ReactionsType) => (
-											<span
-												key={reaction.id}
-												className="cursor-pointer hover:text-5xl ease-in-out duration-100 align-baseline"
-											>
-												{reaction.emojie}
-											</span>
-										)
-									)}
-								</label>
-
-								<AddOutlinedIcon className="m-auto" />
-							</div>
+							<ReactionAdder postId={gossip.id}/>
 						</div>
 					</div>
 				</div>
