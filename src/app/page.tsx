@@ -4,9 +4,9 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
 import { GossipsType, getGossips } from "@/utils/getGossips";
 import { increasePostViewCount } from "@/utils/increasePostViewCount";
+import Pagination from "@/components/Pagination";
 
 export default async function Home() {
-
 	const gossips: GossipsType[] = await getGossips({
 		pageNumber: 1,
 	});
@@ -47,7 +47,7 @@ export default async function Home() {
 							day: "numeric",
 							month: "short",
 							year: "numeric",
-							hour: "2-digit"
+							hour: "2-digit",
 						})}
 					</div>
 					<div
@@ -99,6 +99,7 @@ export default async function Home() {
 					</div>
 				</div>
 			))}
+			<Pagination currentPage={1} />
 		</div>
 	);
 }

@@ -29,3 +29,8 @@
 	width: fit-content !important;
 	display: flex !important;
 }
+
+li.disabled{
+	pointer-events: none;
+	opacity: 0.2;
+}
