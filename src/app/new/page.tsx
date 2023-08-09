@@ -21,9 +21,11 @@ export default function New() {
 		useState<boolean>(false);
 
 	useEffect(() => {
-		getReactions().then((data: Reactions[]) => {
-			setReactions(data);
-		});
+		if (process.env.NODE_ENV !== "development") {
+			getReactions().then((data: Reactions[]) => {
+				setReactions(data);
+			});
+		}
 	}, []);
 
 	function handleSubmit(formData: FormData) {

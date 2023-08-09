@@ -12,8 +12,10 @@ export default async function Home({ params }: { params: { page: number } }) {
 	});
 	const reactions: ReactionsType[] = await getReactions();
 
-	// const gossipIds = gossips.map((gossip: GossipsType) => gossip.id);
-	// await increasePostViewCount(gossipIds);
+	if (process.env.NODE_ENV !== "development") {
+		const gossipIds = gossips.map((gossip: GossipsType) => gossip.id);
+		await increasePostViewCount(gossipIds);
+	}
 
 	return (
 		<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
