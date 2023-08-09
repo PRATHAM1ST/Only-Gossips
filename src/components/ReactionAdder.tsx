@@ -11,7 +11,7 @@ export default function ReactionAdder({ postId }: { postId: string }) {
 	const [currentReaction, setCurrentReaction] = useState<any>(null);
 
 	useEffect(() => {
-		if (process.env.NODE_ENV === "development") {
+		if (process.env.NODE_ENV !== "development") {
 			getReactions().then((data: ReactionsType[]) => {
 				setReactions(data);
 			});
