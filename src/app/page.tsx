@@ -4,11 +4,14 @@ import { GossipsType, getGossips } from "@/utils/getGossips";
 import { increasePostViewCount } from "@/utils/increasePostViewCount";
 import Pagination from "@/components/Pagination";
 import ReactionAdder from "@/components/ReactionAdder";
+import { ReactionsType, getReactions } from "@/utils/getReactions";
 
 export default async function Home() {
 	const gossips: GossipsType[] = await getGossips({
 		pageNumber: 1,
 	});
+
+	const reactions: ReactionsType[] = await getReactions();
 
 	if (process.env.NODE_ENV !== "development") {
 		const gossipIds = gossips.map((gossip: GossipsType) => gossip.id);
@@ -24,13 +27,13 @@ export default async function Home() {
 					className="relative container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto"
 				>
 					<div
-						className="absolute top-0 right-0 opacity-10 text-9xl select-none"
+						className="absolute m-10 top-0 right-0 opacity-10 text-9xl select-none"
 						style={{ zIndex: -1 }}
 					>
 						{gossip.backgroundEmoji}
 					</div>
 					<div
-						className="absolute left-0 bottom-0 opacity-10 text-9xl select-none"
+						className="absolute m-10 left-0 bottom-0 opacity-10 text-9xl select-none"
 						style={{ zIndex: -1 }}
 					>
 						{gossip.backgroundEmoji}
@@ -72,14 +75,14 @@ export default async function Home() {
 							{gossip.reactions.map(
 								(reaction: any, idx: number) => (
 									<div
-										className="reaction bg-black text-white rounded-full w-8 h-8 flex justify-center items-center"
+										// className="reaction bg-black text-white rounded-full w-8 h-8 flex justify-center items-center"
 										key={idx}
 									>
-										{reaction.emoji}
+										{reaction.emojie}
 									</div>
 								)
 							)}
-							<ReactionAdder postId={gossip.id} />
+							<ReactionAdder postId={gossip.id} reactions={reactions} />
 						</div>
 					</div>
 				</div>

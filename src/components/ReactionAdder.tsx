@@ -2,21 +2,21 @@
 
 import React, { useEffect, useState } from "react";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { getReactions, ReactionsType } from "@/utils/getReactions";
+import { ReactionsType } from "@/utils/getReactions";
 import { addPostReaction } from "@/utils/addPostReaction";
 import { checkUserPostReaction } from "@/utils/checkUserPostReaction";
+import { removePostReaction } from "@/utils/removePostReaction";
 
-export default function ReactionAdder({ postId }: { postId: string }) {
-	const [reactions, setReactions] = useState<ReactionsType[]>([]);
+export default function ReactionAdder({
+	postId,
+	reactions,
+}: {
+	postId: string;
+	reactions: ReactionsType[];
+}) {
 	const [currentReaction, setCurrentReaction] = useState<any>(null);
 
 	useEffect(() => {
-		if (process.env.NODE_ENV !== "development") {
-			getReactions().then((data: ReactionsType[]) => {
-				setReactions(data);
-			});
-		}
-
 		checkUserPostReaction({
 			userId: String(localStorage.getItem("userId")),
 			postId: postId,
@@ -53,36 +53,44 @@ export default function ReactionAdder({ postId }: { postId: string }) {
 			});
 	};
 
+	const handleRemoveUserReaction = () => {
+		console.log("removing reaction");
+
+		removePostReaction({
+			userId: String(localStorage.getItem("userId")),
+			postId: postId,
+		})
+			.then((res) => {
+				if (!res.success) {
+					throw res.message;
+				}
+				setCurrentReaction(null);
+			})
+			.catch((err) => {
+				console.log("err", err);
+			});
+	};
+
 	return (
 		<div className="relative add-reaction bg-black text-white rounded-full w-8 h-8 flex items-center cursor-pointer z-10">
-			<label className="px-4 py-2 rounded-lg shadow-xl bg-white z-20 justify-self-start -translate-x-full">
-				{reactions.map((reaction: ReactionsType) =>
-					currentReaction ? (
-						<span
-							key={reaction.id}
-							className="cursor-pointer hover:text-5xl ease-in-out duration-100 align-baseline"
-							onClick={() => handleAddingReaction(reaction.id)}
-						>
-							{reaction.emojie}
-						</span>
-					) : (
-						currentReaction?.reactionId !== reaction.id && (
-							<span
-								key={reaction.id}
-								className="cursor-pointer hover:text-5xl ease-in-out duration-100 align-baseline"
-								onClick={() =>
-									handleAddingReaction(reaction.id)
-								}
-							>
-								{reaction.emojie}
-							</span>
-						)
-					)
-				)}
+			<label className="absolute right-8 px-4 py-2 rounded-lg shadow-xl bg-white z-20 justify-self-start">
+				{reactions.map((reaction: ReactionsType) => (
+					<span
+						key={reaction.id}
+						className="cursor-pointer hover:text-5xl ease-in-out duration-100 align-baseline"
+						onClick={() => handleAddingReaction(reaction.id)}
+					>
+						{currentReaction?.reactionId === reaction.id
+							? ""
+							: reaction.emojie}
+					</span>
+				))}
 			</label>
 
 			{currentReaction ? (
-				currentReaction.emojie
+				<div onClick={handleRemoveUserReaction}>
+					{currentReaction.emojie}
+				</div>
 			) : (
 				<AddOutlinedIcon className="m-auto" />
 			)}
