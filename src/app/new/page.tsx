@@ -22,7 +22,7 @@ export default function New() {
 
 	useEffect(() => {
 		getReactions().then((data: Reactions[]) => {
-			// setReactions(data);
+			setReactions(data);
 		});
 	}, []);
 
