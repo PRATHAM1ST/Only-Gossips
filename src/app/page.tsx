@@ -1,15 +1,21 @@
 import Header from "../components/Header";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
-import { GossipsType, getGossips } from "@/utils/getGossips";
+import {
+	GossipsType,
+	getGossips,
+	GossipsResponseType,
+} from "@/utils/getGossips";
 import { increasePostViewCount } from "@/utils/increasePostViewCount";
 import Pagination from "@/components/Pagination";
 import ReactionAdder from "@/components/ReactionAdder";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
 
 export default async function Home() {
-	const gossips: GossipsType[] = await getGossips({
+	const gossipsResponse: GossipsResponseType = await getGossips({
 		pageNumber: 1,
 	});
+
+	const gossips: GossipsType[] = gossipsResponse.data;
 
 	const reactions: ReactionsType[] = await getReactions();
 
@@ -82,12 +88,18 @@ export default async function Home() {
 									</div>
 								)
 							)}
-							<ReactionAdder postId={gossip.id} reactions={reactions} />
+							<ReactionAdder
+								postId={gossip.id}
+								reactions={reactions}
+							/>
 						</div>
 					</div>
 				</div>
 			))}
-			<Pagination currentPage={1} totalPagesCount={2}/>
+			<Pagination
+				currentPage={1}
+				totalPagesCount={Number(gossipsResponse.totalGossipsPages)}
+			/>
 		</div>
 	);
 }

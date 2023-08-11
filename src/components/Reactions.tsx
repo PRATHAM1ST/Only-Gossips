@@ -18,9 +18,6 @@ export default function Reactions({
 	return (
 		<div
 			className="reactions flex text-2xl items-center justify-center z-10"
-			style={{
-				gap: "-15rem",
-			}}
 		>
 			{reactionsOnPost
 				.slice(0)

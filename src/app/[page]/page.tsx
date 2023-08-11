@@ -1,15 +1,21 @@
 import Header from "../../components/Header";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
-import { GossipsType, getGossips } from "@/utils/getGossips";
+import {
+	GossipsType,
+	getGossips,
+	GossipsResponseType,
+} from "@/utils/getGossips";
 import { increasePostViewCount } from "@/utils/increasePostViewCount";
 import Pagination from "@/components/Pagination";
 import ReactionAdder from "@/components/ReactionAdder";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
 
 export default async function Home({ params }: { params: { page: number } }) {
-	const gossips: GossipsType[] = await getGossips({
+	const gossipsResponse: GossipsResponseType = await getGossips({
 		pageNumber: params.page,
 	});
+
+	const gossips = gossipsResponse.data;
 
 	const reactions: ReactionsType[] = await getReactions();
 
@@ -21,7 +27,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 	return (
 		<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
 			<Header />
-			{gossips?.map((gossip: any) => (
+			{gossips.map((gossip: any) => (
 				<div
 					key={gossip.id}
 					className="relative container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto"
@@ -88,7 +94,10 @@ export default async function Home({ params }: { params: { page: number } }) {
 					</div>
 				</div>
 			))}
-			<Pagination currentPage={params.page} totalPagesCount={2}/>
+			<Pagination
+				currentPage={params.page}
+				totalPagesCount={Number(gossipsResponse.totalGossipsPages)}
+			/>
 		</div>
 	);
 }

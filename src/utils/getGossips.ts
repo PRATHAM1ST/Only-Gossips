@@ -15,16 +15,37 @@ export type GossipsType = {
 	reactions?: any[];
 };
 
-export async function getGossips({ pageNumber }: { pageNumber: number }) {
+export type GossipsResponseType = {
+	gossipsPerPage: Number,
+	totalGossipsPages: Number,
+	data: GossipsType[],
+}
+
+export async function getGossips({ pageNumber }: { pageNumber: number }): Promise<GossipsResponseType>{
+	const totalGossips = await prisma.post.count();
+	const gossipsPerPage = 2;
+	const totalGossipsPages = Math.ceil(totalGossips / gossipsPerPage);
+
 	if (pageNumber < 1) {
-		return [];
+		return {
+			gossipsPerPage,
+			totalGossipsPages,
+			data: [],
+		};
 	}
 
-	const take = 2;
-	const skip = (pageNumber - 1) * take;
-	return await prisma.post.findMany({
+	if (pageNumber > totalGossipsPages) {
+		return {
+			gossipsPerPage,
+			totalGossipsPages,
+			data: [],
+		};
+	}
+
+	const skip = (pageNumber - 1) * gossipsPerPage;
+	const data: GossipsType[] = await prisma.post.findMany({
 		skip: skip,
-		take: take,
+		take: gossipsPerPage,
 		select: {
 			id: true,
 			title: true,
@@ -35,8 +56,24 @@ export async function getGossips({ pageNumber }: { pageNumber: number }) {
 			totalReactions: true,
 			reactions: true,
 		},
-		orderBy:{
-			createdAt: "desc"
-		}
+		orderBy: {
+			createdAt: "desc",
+		},
 	});
+
+	if (!data) {
+		return {
+			gossipsPerPage: 0,
+			totalGossipsPages: 0,
+			data: [],
+		};
+	}
+
+	const response = {
+		gossipsPerPage,
+		totalGossipsPages,
+		data,
+	};
+
+	return response;
 }
