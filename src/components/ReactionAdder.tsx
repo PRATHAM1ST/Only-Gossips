@@ -15,10 +15,11 @@ export default function ReactionAdder({
 	reactions: ReactionsType[];
 }) {
 	const [currentReaction, setCurrentReaction] = useState<any>(null);
+	const userId = String(localStorage.getItem("userId"));
 
 	useEffect(() => {
 		checkUserPostReaction({
-			userId: String(localStorage.getItem("userId")),
+			userId: userId,
 			postId: postId,
 		})
 			.then((res) => {
@@ -36,7 +37,7 @@ export default function ReactionAdder({
 		console.log("adding reaction");
 
 		addPostReaction({
-			userId: String(localStorage.getItem("userId")),
+			userId: userId,
 			postId: postId,
 			reactionId: reactionId,
 		})

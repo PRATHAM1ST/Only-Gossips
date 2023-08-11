@@ -1,39 +1,47 @@
-"use client";
-
-import ReactPaginate from "react-paginate";
-import { useRouter } from "next/navigation";
-
-export default function Pagination({ currentPage }: { currentPage: number }) {
-	const router = useRouter();
+export default function Pagination({
+	currentPage,
+	totalPagesCount,
+}: {
+	currentPage: number;
+	totalPagesCount: number;
+}) {
 	const style =
-		"border-2 border-black px-2 py-1 rounded flex justify-center items-center text-xs font-bold user-select-none cursor-pointer";
-	const pagesCount = 2;
-	const handlePageChange = (selectedPage: { selected: number }) => {
-		const pageNumber = selectedPage.selected + 1;
-		router.push(`/${pageNumber}`);
-		// console.log('pageNumber', pageNumber);
-	};
+		"border-2 border-black px-2 py-1 rounded flex justify-center items-center text-xs font-bold user-select-none cursor-pointer w-fit";
+	const activeStyle = "bg-black text-white rounded ease-in-out duration-300";
 
 	return (
-		<ReactPaginate
-			previousLabel="Previous"
-			nextLabel="Next"
-			pageClassName={""}
-			pageLinkClassName={style}
-			previousClassName={""}
-			previousLinkClassName={style}
-			nextClassName={""}
-			nextLinkClassName={style}
-			breakLabel="..."
-			breakClassName={""}
-			breakLinkClassName={style}
-			pageCount={pagesCount}
-			marginPagesDisplayed={2}
-			pageRangeDisplayed={1}
-			onPageChange={handlePageChange}
-            initialPage={currentPage - 1}
-			containerClassName="flex gap-1 justify-center items-center mt-8"
-			activeClassName="bg-black text-white rounded ease-in-out duration-300"
-		/>
+		<footer className="flex gap-1 justify-center items-center mt-8">
+			<a
+				className={style}
+				data-disabled={currentPage == 1}
+				href={`/${currentPage - 1}`}
+			>
+				Previous
+			</a>
+			{Array(totalPagesCount)
+				.fill(0)
+				.map((_, idx) =>
+					currentPage == idx + 1 ? (
+						<div key={idx} className={`${style} ${activeStyle}`}>
+							{idx + 1}
+						</div>
+					) : (
+						<a
+							key={idx}
+							className={style}
+							href={`/${idx + 1}`}
+						>
+							{idx + 1}
+						</a>
+					)
+				)}
+			<a
+				className={style}
+				data-disabled={currentPage == totalPagesCount}
+				href={`/${Number(currentPage) + 1}`}
+			>
+				Next
+			</a>
+		</footer>
 	);
 }

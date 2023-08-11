@@ -87,7 +87,7 @@ export default async function Home() {
 					</div>
 				</div>
 			))}
-			<Pagination currentPage={1} />
+			<Pagination currentPage={1} totalPagesCount={2}/>
 		</div>
 	);
 }

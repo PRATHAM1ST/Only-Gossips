@@ -72,16 +72,14 @@ export default async function Home({ params }: { params: { page: number } }) {
 								gap: "-15rem",
 							}}
 						>
-							{gossip.reactions.map(
-								(reaction: any, idx: number) => (
-									<div
-										// className="reaction bg-black text-white rounded-full w-8 h-8 flex justify-center items-center"
-										key={idx}
-									>
+							{gossip.reactions
+								.slice(0)
+								.slice(-5)
+								.map((reaction: any, idx: number) => (
+									<div className="-ml-5" key={idx}>
 										{reaction.emojie}
 									</div>
-								)
-							)}
+								))}
 							<ReactionAdder
 								postId={gossip.id}
 								reactions={reactions}
@@ -90,7 +88,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 					</div>
 				</div>
 			))}
-			<Pagination currentPage={params.page} />
+			<Pagination currentPage={params.page} totalPagesCount={2}/>
 		</div>
 	);
 }
