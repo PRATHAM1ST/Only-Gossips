@@ -10,6 +10,7 @@ import Pagination from "@/components/Pagination";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
 import Reactions from "@/components/Reactions";
 import Report from "@/components/Report";
+import ViewsIncrementer from "@/components/ViewsIncrementer";
 
 export default async function Home() {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -19,11 +20,6 @@ export default async function Home() {
 	const gossips: GossipsType[] = gossipsResponse.data;
 
 	const reactions: ReactionsType[] = await getReactions();
-
-	if (process.env.NODE_ENV !== "development") {
-		const gossipIds = gossips.map((gossip: GossipsType) => gossip.id);
-		await increasePostViewCount(gossipIds);
-	}
 
 	return (
 		<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
@@ -68,6 +64,7 @@ export default async function Home() {
 					<div className="container-footer flex justify-between items-center mt-4">
 						<Report postId={gossip.id} />
 						<div className="stats font-bold text-neutral-500 text-xs">
+							<ViewsIncrementer postId={gossip.id} />
 							{gossip.views + 1} Views {"•"}{" "}
 							{gossip.totalReactions} Reactions
 						</div>
