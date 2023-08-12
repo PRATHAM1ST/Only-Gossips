@@ -5,7 +5,6 @@ import {
 	getGossips,
 	GossipsResponseType,
 } from "@/utils/getGossips";
-import { increasePostViewCount } from "@/utils/increasePostViewCount";
 import Pagination from "@/components/Pagination";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
 import Reactions from "@/components/Reactions";
