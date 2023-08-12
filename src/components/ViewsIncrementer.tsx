@@ -4,14 +4,14 @@ import { use, useEffect } from "react";
 import { increasePostViewCount } from "@/utils/increasePostViewCount";
 
 export default function ViewsIncrementer({ postId }: { postId: string }) {
-	const userId = String(localStorage.getItem("userId"));
-
+	
 	useEffect(() => {
+		const userId = localStorage.getItem("userId");
 		if (userId !== null) return;
 		if (process.env.NODE_ENV !== "development") {
 			increasePostViewCount({
 				postId: postId,
-				userId: userId,
+				userId: String(userId),
 			})
 				.then((res) => {
 					if (res.success) throw new Error(res.message);
@@ -20,7 +20,7 @@ export default function ViewsIncrementer({ postId }: { postId: string }) {
 					console.error(err);
 				});
 		}
-	}, [userId, postId]);
+	}, [postId]);
 
 	return <></>;
 }

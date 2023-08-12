@@ -4,11 +4,12 @@ import React, { useState } from "react";
 import { addPostReport } from "@/utils/addPostReport";
 
 export default function Report({ postId }: { postId: string }) {
-	const userId = String(localStorage.getItem("userId"));
 	const [reportModal, setReportModal] = useState(false);
 	const [reportReason, setReportReason] = useState("");
 
 	const handleAddReport = () => {
+		const userId = localStorage.getItem("userId");
+		if (!userId) return;
 		if (
 			!reportReason &&
 			reportReason.length < 10 &&

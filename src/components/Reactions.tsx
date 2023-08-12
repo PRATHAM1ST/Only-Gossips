@@ -19,11 +19,12 @@ export default function Reactions({
 		id: string;
 		emojie: string;
 	} | null>(null);
-	const userId = String(localStorage.getItem("userId"));
-
+	
 	const getCurrentUserReaction = () => {
+		const userId = localStorage.getItem("userId"); 
+		if (!userId) return;
 		checkUserPostReaction({
-			userId: userId,
+			userId: String(userId),
 			postId: postId,
 		})
 			.then((res) => {
@@ -43,8 +44,6 @@ export default function Reactions({
 	useEffect(() => {
 		getCurrentUserReaction(); // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	console.log(postId, defaultReactionAdderArray, userId, currentReaction);
 
 	return (
 		<div className="reactions flex text-2xl items-center justify-center">

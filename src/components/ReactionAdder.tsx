@@ -22,12 +22,13 @@ export default function ReactionAdder({
 	setCurrentReaction: any;
 	setPostReactions: any;
 }) {
-	const userId = String(localStorage.getItem("userId"));
 	
 	const handleAddingReaction = (reactionId: string) => {
+		const userId = localStorage.getItem("userId");
+		if (!userId) return;
 		console.log("adding reaction");
 		addPostReaction({
-			userId: userId,
+			userId: String(userId),
 			postId: postId,
 			reactionId: reactionId,
 		})
