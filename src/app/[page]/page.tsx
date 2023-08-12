@@ -7,9 +7,9 @@ import {
 } from "@/utils/getGossips";
 import { increasePostViewCount } from "@/utils/increasePostViewCount";
 import Pagination from "@/components/Pagination";
-import ReactionAdder from "@/components/ReactionAdder";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
 import Reactions from "@/components/Reactions";
+import Report from "@/components/Report";
 
 export default async function Home({ params }: { params: { page: number } }) {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -31,7 +31,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 			{gossips.map((gossip: any) => (
 				<div
 					key={gossip.id}
-					className="relative container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto"
+					className="relative container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto overflow-hidden"
 				>
 					<div
 						className="absolute m-10 top-0 right-0 opacity-10 text-9xl select-none"
@@ -58,6 +58,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 							month: "short",
 							year: "numeric",
 							hour: "2-digit",
+							timeZone: "Asia/Kolkata",
 						})}
 					</div>
 					<div
@@ -66,9 +67,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 					></div>
 
 					<div className="container-footer flex justify-between items-center mt-4">
-						<button className="report border-red-500 rounded border-2 px-3 py-1 text-red-500 text-xs cursor-pointer">
-							Report
-						</button>
+						<Report postId={gossip.id} />
 						<div className="stats font-bold text-neutral-500 text-xs">
 							{gossip.views + 1} Views {"•"}{" "}
 							{gossip.totalReactions} Reactions

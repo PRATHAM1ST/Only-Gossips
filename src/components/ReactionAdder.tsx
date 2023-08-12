@@ -26,8 +26,6 @@ export default function ReactionAdder({
 	
 	const handleAddingReaction = (reactionId: string) => {
 		console.log("adding reaction");
-
-		console.log(userId, postId, reactionId);
 		addPostReaction({
 			userId: userId,
 			postId: postId,
@@ -67,8 +65,8 @@ export default function ReactionAdder({
 	};
 
 	return (
-		<div className="relative add-reaction bg-black text-white rounded-full w-8 h-8 flex items-center cursor-pointer z-10">
-			<label className="absolute right-8 px-4 py-2 rounded-lg shadow-xl bg-white z-20 justify-self-start">
+		<div className="relative add-reaction bg-black text-white rounded-full w-8 h-8 flex items-center cursor-pointer">
+			<label className="absolute right-8 px-4 py-2 rounded-lg shadow-xl bg-white justify-self-start">
 				{reactions.map((reaction: ReactionsType) => (
 					<span
 						key={reaction.id}

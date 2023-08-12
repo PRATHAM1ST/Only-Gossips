@@ -47,7 +47,7 @@ export default function Reactions({
 	console.log(postId, defaultReactionAdderArray, userId, currentReaction);
 
 	return (
-		<div className="reactions flex text-2xl items-center justify-center z-10">
+		<div className="reactions flex text-2xl items-center justify-center">
 			{postReactions
 				.slice(0)
 				.slice(-5)
