@@ -10,7 +10,6 @@ export type GossipsType = {
 	content: string;
 	createdAt: Date;
 	backgroundEmoji: string;
-	views: number;
 	totalReactions: number;
 	reactions?: any[];
 };
@@ -52,14 +51,20 @@ export async function getGossips({ pageNumber }: { pageNumber: number }): Promis
 			content: true,
 			createdAt: true,
 			backgroundEmoji: true,
-			views: true,
 			totalReactions: true,
 			reactions: true,
+			views: true,
 		},
 		orderBy: {
 			createdAt: "desc",
 		},
 	});
+
+	// const views = await prisma.view.count({
+	// 	where: {
+	// 		postId: data.map((post) => post.id),
+	// 	},
+	// });
 
 	if (!data) {
 		return {

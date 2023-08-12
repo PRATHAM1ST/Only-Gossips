@@ -20,11 +20,6 @@ export default async function Home({ params }: { params: { page: number } }) {
 
 	const reactions: ReactionsType[] = await getReactions();
 
-	if (process.env.NODE_ENV !== "development") {
-		const gossipIds = gossips.map((gossip: GossipsType) => gossip.id);
-		await increasePostViewCount(gossipIds);
-	}
-
 	return (
 		<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
 			<Header />
@@ -69,7 +64,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 					<div className="container-footer flex justify-between items-center mt-4">
 						<Report postId={gossip.id} />
 						<div className="stats font-bold text-neutral-500 text-xs">
-							{gossip.views + 1} Views {"•"}{" "}
+							{gossip.views.length + 1} Views {"•"}{" "}
 							{gossip.totalReactions} Reactions
 						</div>
 						<Reactions
