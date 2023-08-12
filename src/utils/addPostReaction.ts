@@ -1,6 +1,6 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -15,33 +15,39 @@ export async function addPostReaction({
 	postId,
 	reactionId,
 }: RequestType) {
-    const userExists = await prisma.user.findUnique({
-		where: {
-			id: userId,
-		},
-	});
-
-	if (!userExists) {
-		return {
-			success: false,
-			message: "User not found",
-		};
-	}
-
-	const reactionExists = await prisma.reaction.findUnique({
+	const getReaction = await prisma.reaction.findUnique({
 		where: {
 			id: reactionId,
 		},
+		select: {
+			emojie: true,
+		},
 	});
 
-	if (!reactionExists) {
+	if (!getReaction) {
 		return {
 			success: false,
 			message: "Reaction not found",
 		};
 	}
 
-	const reactionExistsInPost = await prisma.post.findUnique({
+	const userReactions = await prisma.user.findUnique({
+		where: {
+			id: userId,
+		},
+		select: {
+			reactions: true,
+		},
+	});
+
+	if (!userReactions) {
+		return {
+			success: false,
+			message: "User not found",
+		};
+	}
+
+	const postReactions = await prisma.post.findUnique({
 		where: {
 			id: postId,
 		},
@@ -50,56 +56,59 @@ export async function addPostReaction({
 		},
 	});
 
-	if (
-		reactionExistsInPost?.reactions.some(
-			(reaction: any) => reaction?.userId === userId
-		)
-	) {
+	if (!postReactions) {
 		return {
 			success: false,
-			message: "Reaction already exists",
+			message: "Post not found",
 		};
 	}
 
-	const updatePostReaction = prisma.post.update({
-		where: {
-			id: postId,
-		},
-		data: {
-			totalReactions: {
-				increment: 1,
-			},
-			reactions: {
-				push: {
-					reactionId: reactionId,
-					userId: userId,
-					emojie: reactionExists.emojie,
-				},
-			},
-		},
-	});
-
-	const updateUserReaction = prisma.user.update({
+	const userReactionsUpdate = prisma.user.update({
 		where: {
 			id: userId,
 		},
 		data: {
-			reactions: {
-				push: {
-					reactionId: reactionId,
+			reactions: [
+				...userReactions.reactions.filter(
+					(reac) => reac.postId !== postId
+				),
+				{
 					postId: postId,
-					emojie: reactionExists.emojie,
+					reactionId: reactionId,
+					emojie: getReaction.emojie,
 				},
-			},
+			],
 		},
 	});
 
-	await Promise.all([updatePostReaction, updateUserReaction]);
+	const postReactionsUpdate = prisma.post.update({
+		where: {
+			id: postId,
+		},
+		data: {
+			reactions: [
+				...postReactions.reactions.filter(
+					(reac) => reac.userId !== userId
+				),
+				{
+					userId: userId,
+					reactionId: reactionId,
+					emojie: getReaction.emojie,
+				},
+			],
+		},
+	});
+
+	const [userReactionsUpdated, postReactionsUpdated] = await Promise.all([
+		userReactionsUpdate,
+		postReactionsUpdate,
+	]);
 
 	return {
 		success: true,
 		message: "Reaction added successfully",
-		emojie: reactionExists.emojie,
-        reactionId: reactionId,
+		emojie: getReaction.emojie,
+		reactionId: reactionId,
+		updatedPostReactions: postReactionsUpdated.reactions,
 	};
 }

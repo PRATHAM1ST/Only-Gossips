@@ -4,38 +4,30 @@ import React, { useEffect, useState } from "react";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { ReactionsType } from "@/utils/getReactions";
 import { addPostReaction } from "@/utils/addPostReaction";
-import { checkUserPostReaction } from "@/utils/checkUserPostReaction";
 import { removePostReaction } from "@/utils/removePostReaction";
 
 export default function ReactionAdder({
 	postId,
 	reactions,
+	currentReaction,
+	setCurrentReaction,
+	setPostReactions
 }: {
 	postId: string;
 	reactions: ReactionsType[];
+	currentReaction: {
+		id: string;
+		emojie: string;
+	} | null;
+	setCurrentReaction: any;
+	setPostReactions: any;
 }) {
-	const [currentReaction, setCurrentReaction] = useState<any>(null);
 	const userId = String(localStorage.getItem("userId"));
-
-	useEffect(() => {
-		checkUserPostReaction({
-			userId: userId,
-			postId: postId,
-		})
-			.then((res) => {
-				if (!res.success) {
-					throw res.message;
-				}
-				setCurrentReaction(res);
-			})
-			.catch((err) => {
-				console.log("err", err);
-			});
-	}, []);
-
+	
 	const handleAddingReaction = (reactionId: string) => {
 		console.log("adding reaction");
 
+		console.log(userId, postId, reactionId);
 		addPostReaction({
 			userId: userId,
 			postId: postId,
@@ -46,8 +38,10 @@ export default function ReactionAdder({
 					throw res.message;
 				}
 				setCurrentReaction({
-					emojie: res.emojie,
+					id: String(res.reactionId),
+					emojie: String(res.emojie),
 				});
+				setPostReactions(res.updatedPostReactions);
 			})
 			.catch((err) => {
 				console.log("err", err);
@@ -81,7 +75,7 @@ export default function ReactionAdder({
 						className="cursor-pointer hover:text-5xl ease-in-out duration-100 align-baseline"
 						onClick={() => handleAddingReaction(reaction.id)}
 					>
-						{currentReaction?.reactionId === reaction.id
+						{currentReaction?.id === reaction.id
 							? ""
 							: reaction.emojie}
 					</span>

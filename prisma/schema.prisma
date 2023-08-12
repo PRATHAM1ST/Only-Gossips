@@ -10,11 +10,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+type UserReactionsJson {
+  postId            String     @db.ObjectId
+  reactionId        String
+  emojie            String
+}
+
 model User {
   id                String      @id @default(auto()) @map("_id") @db.ObjectId
   joinedAt          DateTime    @default(now())
   accessedAt        DateTime    @updatedAt
-  reactions         Json[]      @default([])
+  reactions         UserReactionsJson[]
   posts             Post[]
   reports           Report[]
 }
@@ -26,6 +32,12 @@ model Reaction {
   totalUsed         Int         @default(0)
 }
 
+type PostReactionJson {
+  userId            String     @db.ObjectId
+  reactionId        String
+  emojie            String
+}
+
 model Post {
   id                String      @id @default(auto()) @map("_id") @db.ObjectId
   createdAt         DateTime    @default(now())
@@ -35,7 +47,7 @@ model Post {
   backgroundEmoji   String
   views             Int         @default(0)
   totalReactions    Int         @default(0)
-  reactions         Json[]      @default([])
+  reactions         PostReactionJson[]     
   author            User        @relation(fields: [authorId], references: [id])
   authorId          String      @db.ObjectId
   reports           Report[]    

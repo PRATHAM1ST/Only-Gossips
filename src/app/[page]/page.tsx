@@ -9,6 +9,7 @@ import { increasePostViewCount } from "@/utils/increasePostViewCount";
 import Pagination from "@/components/Pagination";
 import ReactionAdder from "@/components/ReactionAdder";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
+import Reactions from "@/components/Reactions";
 
 export default async function Home({ params }: { params: { page: number } }) {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -72,25 +73,11 @@ export default async function Home({ params }: { params: { page: number } }) {
 							{gossip.views + 1} Views {"•"}{" "}
 							{gossip.totalReactions} Reactions
 						</div>
-						<div
-							className="reactions flex text-2xl items-center justify-center z-10"
-							style={{
-								gap: "-15rem",
-							}}
-						>
-							{gossip.reactions
-								.slice(0)
-								.slice(-5)
-								.map((reaction: any, idx: number) => (
-									<div className="-ml-5" key={idx}>
-										{reaction.emojie}
-									</div>
-								))}
-							<ReactionAdder
-								postId={gossip.id}
-								reactions={reactions}
-							/>
-						</div>
+						<Reactions
+							postId={gossip.id}
+							reactionsOnPost={gossip.reactions}
+							defaultReactionAdderArray={reactions}
+						/>
 					</div>
 				</div>
 			))}
