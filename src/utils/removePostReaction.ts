@@ -77,7 +77,7 @@ export async function removePostReaction({ userId, postId }: RequestType) {
 				totalReactions: {
 					decrement: 1,
 				},
-				reactions: newPostReactions as Prisma.InputJsonObject[],
+				reactions: newPostReactions,
 			},
 		});
 	}
@@ -97,7 +97,7 @@ export async function removePostReaction({ userId, postId }: RequestType) {
 				id: userId,
 			},
 			data: {
-				reactions: newUserReactions as Prisma.InputJsonObject[],
+				reactions: newUserReactions,
 			},
 		});
 	}
