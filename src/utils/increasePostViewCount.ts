@@ -11,6 +11,20 @@ export type ViewType = {
 
 export async function increasePostViewCount({ postId, userId }: ViewType) {
 	try {
+		const viewCheck = await prisma.view.findFirst({
+			where: {
+				postId,
+				userId,
+			},
+		});
+
+		if (viewCheck) {
+			return {
+				success: false,
+				message: "Already viewed",
+			};
+		}
+		
 		await prisma.view.create({
 			data: {
 				post: {

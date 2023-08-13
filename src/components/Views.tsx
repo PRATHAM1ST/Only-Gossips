@@ -1,10 +1,15 @@
 "use client";
 
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import { increasePostViewCount } from "@/utils/increasePostViewCount";
 
-export default function ViewsIncrementer({ postId }: { postId: string }) {
-	
+export default function ViewsIncrementer({
+	postId,
+	views,
+}: {
+	postId: string;
+	views: object[];
+}) {
 	useEffect(() => {
 		const userId = localStorage.getItem("userId");
 		if (!userId) return;
@@ -22,5 +27,5 @@ export default function ViewsIncrementer({ postId }: { postId: string }) {
 		}
 	}, [postId]);
 
-	return <></>;
+	return <>{Number(views.length) + 1} Views</>;
 }

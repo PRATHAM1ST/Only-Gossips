@@ -9,7 +9,7 @@ import Pagination from "@/components/Pagination";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
 import Reactions from "@/components/Reactions";
 import Report from "@/components/Report";
-import ViewsIncrementer from "@/components/ViewsIncrementer";
+import ViewsIncrementer from "@/components/Views";
 
 export default async function Home({ params }: { params: { page: number } }) {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -64,9 +64,11 @@ export default async function Home({ params }: { params: { page: number } }) {
 					<div className="container-footer flex justify-between items-center mt-4">
 						<Report postId={gossip.id} />
 						<div className="stats font-bold text-neutral-500 text-xs">
-							<ViewsIncrementer postId={gossip.id} />
-							{Number(gossip.views.length) + 1} Views {"•"}{" "}
-							{gossip.totalReactions} Reactions
+							<ViewsIncrementer
+								postId={gossip.id}
+								views={gossip.views}
+							/>
+							{"•"} {gossip.totalReactions} Reactions
 						</div>
 						<Reactions
 							postId={gossip.id}
