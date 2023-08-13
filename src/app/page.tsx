@@ -53,6 +53,7 @@ export default async function Home() {
 							month: "short",
 							year: "numeric",
 							hour: "2-digit",
+							timeZone: "Asia/Kolkata",
 						})}
 					</div>
 					<div
@@ -64,7 +65,7 @@ export default async function Home() {
 						<Report postId={gossip.id} />
 						<div className="stats font-bold text-neutral-500 text-xs">
 							<ViewsIncrementer postId={gossip.id} />
-							{gossip.views + 1} Views {"•"}{" "}
+							{Number(gossip.views.length) + 1} Views {"•"}{" "}
 							{gossip.totalReactions} Reactions
 						</div>
 						

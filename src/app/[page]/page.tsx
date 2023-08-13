@@ -65,7 +65,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 						<Report postId={gossip.id} />
 						<div className="stats font-bold text-neutral-500 text-xs">
 							<ViewsIncrementer postId={gossip.id} />
-							{gossip.views.length + 1} Views {"•"}{" "}
+							{Number(gossip.views.length) + 1} Views {"•"}{" "}
 							{gossip.totalReactions} Reactions
 						</div>
 						<Reactions
