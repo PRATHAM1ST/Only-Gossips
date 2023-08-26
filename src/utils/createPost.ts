@@ -1,6 +1,6 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -9,6 +9,7 @@ export type RequestType = {
 	content: string;
 	backgroundEmoji: string;
 	userId: string;
+	images: Prisma.InputJsonValue[];
 };
 
 export async function createPost({
@@ -16,12 +17,14 @@ export async function createPost({
 	content,
 	backgroundEmoji,
 	userId,
+	images,
 }: RequestType) {
 	const result = await prisma.post.create({
 		data: {
 			title: title,
 			content: content,
 			backgroundEmoji: backgroundEmoji,
+			images: images,
 			author: {
 				connect: {
 					id: userId,

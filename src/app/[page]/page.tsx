@@ -10,6 +10,7 @@ import { ReactionsType, getReactions } from "@/utils/getReactions";
 import Reactions from "@/components/Reactions";
 import Report from "@/components/Report";
 import ViewsIncrementer from "@/components/Views";
+import Image from "next/image";
 
 export default async function Home({ params }: { params: { page: number } }) {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -56,6 +57,16 @@ export default async function Home({ params }: { params: { page: number } }) {
 							timeZone: "Asia/Kolkata",
 						})}
 					</div>
+					{gossip.images?.map((image: any) => (
+						<Image
+							key={image.info.id}
+							src={image.info.secure_url}
+							width={image.info.width}
+							height={image.info.height}
+							alt={"fenn"}
+							className="gossip-image"
+						/>
+					))}
 					<div
 						className="gossip-message"
 						dangerouslySetInnerHTML={{ __html: gossip.content }}

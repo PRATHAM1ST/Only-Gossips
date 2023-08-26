@@ -51,13 +51,14 @@ model Post {
   reactions         PostReactionJson[]     
   author            User        @relation(fields: [authorId], references: [id])
   authorId          String      @db.ObjectId
-  reports           Report[]    
+  reports           Report[]
+  images            Json[]      @default([])
 }
 
 model Report {
   id                String      @id @default(auto()) @map("_id") @db.ObjectId
   createdAt         DateTime    @default(now())
-  reason           String
+  reason            String
   author            User        @relation(fields: [authorId], references: [id])
   authorId          String      @db.ObjectId
   post              Post        @relation(fields: [postId], references: [id])

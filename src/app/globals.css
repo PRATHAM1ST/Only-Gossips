@@ -5,6 +5,9 @@
 .ql-container {
 	font-family: inherit !important;
 	border: none !important;
+}
+
+.ql-editor{
 	min-height: 15em !important;
 }
 

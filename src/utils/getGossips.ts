@@ -12,6 +12,7 @@ export type GossipsType = {
 	backgroundEmoji: string;
 	totalReactions: number;
 	reactions?: any[];
+	images?: any[];
 };
 
 export type GossipsResponseType = {
@@ -54,6 +55,7 @@ export async function getGossips({ pageNumber }: { pageNumber: number }): Promis
 			totalReactions: true,
 			reactions: true,
 			views: true,
+			images: true,
 		},
 		orderBy: {
 			createdAt: "desc",

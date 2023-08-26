@@ -4,15 +4,48 @@ import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Link from "next/link";
-import { inter, oooh_baby, margurite, gotham } from "../fonts";
+import { inter } from "../fonts";
 import { getReactions } from "@/utils/getReactions";
 import { RequestType, createPost } from "@/utils/createPost";
 import Upload from "./components/upload";
 import Header from "@/components/Header";
+import { CldUploadButton } from "next-cloudinary";
+import { CldImage } from "next-cloudinary";
+import { Prisma } from "@prisma/client";
 
 type Reactions = {
 	id: string;
 	emojie: string;
+};
+
+type UploadResponse = {
+	event: string;
+	info: {
+		id: string;
+		batchId: string;
+		asset_id: string;
+		public_id: string;
+		version: number;
+		version_id: string;
+		signature: string;
+		width: number;
+		height: number;
+		format: string;
+		resource_type: string;
+		created_at: string;
+		tags: string[];
+		bytes: number;
+		type: string;
+		etag: string;
+		placeholder: boolean;
+		url: string;
+		secure_url: string;
+		folder: string;
+		access_mode: string;
+		original_filename: string;
+		path: string;
+		thumbnail_url: string;
+	};
 };
 
 export default function New() {
@@ -21,6 +54,13 @@ export default function New() {
 	const [emojie, setEmojie] = useState<number>(0);
 	const [postingDataLoading, setPostingDataLoading] =
 		useState<boolean>(false);
+	const [uploadResponses, setUploadResponses] = useState<UploadResponse[]>(
+		[]
+	);
+	const handleUpload = (e: any) => {
+		setUploadResponses((prev) => [...prev, e]);
+	};
+	const handleDelete = async (public_id: string) => {};
 
 	useEffect(() => {
 		if (process.env.NODE_ENV !== "development") {
@@ -41,6 +81,7 @@ export default function New() {
 			content,
 			backgroundEmoji,
 			userId,
+			images: uploadResponses,
 		};
 
 		createPost(data)
@@ -151,7 +192,47 @@ export default function New() {
 					</div>
 				</div>
 
-				<Upload />
+				<div className="flex gap-3 items-center">
+					<CldUploadButton
+						uploadPreset="gossip"
+						className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
+						onUpload={handleUpload}
+						options={{
+							clientAllowedFormats: [
+								"png",
+								"gif",
+								"jpeg",
+								"jpg",
+								"webp",
+								"heic",
+								"heif",
+							],
+							sources: [
+								"local",
+								"camera",
+								"google_drive",
+								"instagram",
+								"facebook",
+							],
+						}}
+					/>
+					<div className="flex gap-3 my-4">
+						{uploadResponses?.map((uploadResponse) => (
+							<CldImage
+								key={uploadResponse.info.id}
+								height={uploadResponse.info.height}
+								width={uploadResponse.info.width}
+								src={uploadResponse.info.public_id}
+								sizes="100vw"
+								alt="Description of my image"
+								onClick={() =>
+									handleDelete(uploadResponse.info.public_id)
+								}
+								className="w-20"
+							/>
+						))}
+					</div>
+				</div>
 
 				<button
 					className={`bg-black text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-slate-900`}
