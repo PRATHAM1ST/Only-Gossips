@@ -8,6 +8,7 @@ import { inter, oooh_baby, margurite, gotham } from "../fonts";
 import { getReactions } from "@/utils/getReactions";
 import { RequestType, createPost } from "@/utils/createPost";
 import Upload from "./components/upload";
+import Header from "@/components/Header";
 
 type Reactions = {
 	id: string;
@@ -67,18 +68,7 @@ export default function New() {
 
 	return (
 		<div className="container mx-auto px-4 max-w-4xl">
-			<header className="flex justify-between items-center my-5">
-				<Link href="/" className={"text-3xl"}>
-					<span className={gotham.className}>Only</span>
-					<span className={margurite.className + " text-sky-500"}>Goosips</span>
-				</Link>
-				<Link
-					href="/"
-					className="bg-red-500 text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-red-900"
-				>
-					Cancel
-				</Link>
-			</header>
+			<Header />
 			<form
 				className={`grid gap-3 max-w-2xl mx-auto ${
 					postingDataLoading

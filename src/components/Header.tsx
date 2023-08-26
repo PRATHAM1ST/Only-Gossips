@@ -9,7 +9,7 @@ export default function Header({ removeAdder = false }) {
 					Only
 				</span>
 				<span className={margurite.className + " text-sky-500"}>
-					Gossip
+					Gossips
 				</span>
 			</Link>
 			{!removeAdder && (

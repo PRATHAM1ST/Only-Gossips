@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/server";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export async function GET() {
 	const margueriteFontData = await fetch(
@@ -13,21 +13,9 @@ export async function GET() {
 
 	return new ImageResponse(
 		(
-			<div
-				style={{
-					display: "flex",
-					fontSize: 40,
-					color: "black",
-					background: "white",
-					width: "100%",
-					height: "100%",
-					padding: "50px 200px",
-					textAlign: "center",
-					justifyContent: "center",
-					alignItems: "center",
-				}}
-			>
+			<div tw="flex items-center justify-center h-full w-full text-9xl">
 				<span
+					tw="leading-none"
 					style={{
 						fontFamily: '"gotham"',
 					}}
@@ -35,6 +23,7 @@ export async function GET() {
 					Only
 				</span>
 				<span
+					tw="leading-none -mb-14"
 					style={{
 						fontFamily: '"margurite"',
 						color: "rgb(14 165 233)",
