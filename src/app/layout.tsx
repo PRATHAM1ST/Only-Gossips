@@ -6,6 +6,9 @@ import { inter } from "./fonts";
 export const metadata: Metadata = {
 	title: "Gossip",
 	description: "A social media platform for gossiping",
+	openGraph: {
+		images: ["/api/og"],
+	},
 };
 
 export default function RootLayout({

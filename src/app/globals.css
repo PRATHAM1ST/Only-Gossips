@@ -5,6 +5,7 @@
 .ql-container {
 	font-family: inherit !important;
 	border: none !important;
+	min-height: 15em !important;
 }
 
 .ql-toolbar.ql-snow {

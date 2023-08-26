@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Link from "next/link";
-import { inter, oooh_baby } from "../fonts";
+import { inter, oooh_baby, margurite, gotham } from "../fonts";
 import { getReactions } from "@/utils/getReactions";
 import { RequestType, createPost } from "@/utils/createPost";
+import Upload from "./components/upload";
 
 type Reactions = {
 	id: string;
@@ -34,7 +35,6 @@ export default function New() {
 		const content = gossip;
 		const backgroundEmoji = String(formData.get("emojie"));
 		const userId = String(localStorage.getItem("userId"));
-
 		const data: RequestType = {
 			title,
 			content,
@@ -68,8 +68,9 @@ export default function New() {
 	return (
 		<div className="container mx-auto px-4 max-w-4xl">
 			<header className="flex justify-between items-center my-5">
-				<Link href="/" className={oooh_baby.className + " text-3xl"}>
-					Goosip
+				<Link href="/" className={"text-3xl"}>
+					<span className={gotham.className}>Only</span>
+					<span className={margurite.className + " text-sky-500"}>Goosips</span>
 				</Link>
 				<Link
 					href="/"
@@ -107,7 +108,7 @@ export default function New() {
 					<ReactQuill
 						className={`${
 							inter.className
-						} border-2 border-black rounded h-64 first:border-2 relative flex flex-col ${
+						} border-2 border-black rounded first:border-2 relative flex flex-col h-fit ${
 							postingDataLoading
 								? "cursor-not-allowed select-none"
 								: ""
@@ -159,6 +160,9 @@ export default function New() {
 						)}
 					</div>
 				</div>
+
+				<Upload />
+
 				<button
 					className={`bg-black text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-slate-900`}
 					type="submit"

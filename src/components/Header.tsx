@@ -1,16 +1,16 @@
-import { Oooh_Baby } from "next/font/google";
 import Link from "next/link";
-
-const oooh_baby = Oooh_Baby({
-	subsets: ["latin"],
-	weight: "400",
-});
+import { gotham, margurite } from "@/app/fonts";
 
 export default function Header({ removeAdder = false }) {
 	return (
 		<header className="flex justify-between items-center my-5">
-			<Link href="/" className={oooh_baby.className + " text-3xl"}>
-				Goosip
+			<Link href="/" className={"text-3xl"}>
+				<span className={gotham.className}>
+					Only
+				</span>
+				<span className={margurite.className + " text-sky-500"}>
+					Gossip
+				</span>
 			</Link>
 			{!removeAdder && (
 				<Link
