@@ -4,7 +4,7 @@ import AuthSetter from "../components/AuthSetter";
 import { inter } from "./fonts";
 
 export const metadata: Metadata = {
-	title: "Gossip",
+	title: "Only Gossips",
 	description: "A social media platform for gossiping",
 	openGraph: {
 		images: ["/api/og"],
