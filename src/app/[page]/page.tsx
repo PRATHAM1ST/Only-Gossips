@@ -12,6 +12,22 @@ import Report from "@/components/Report";
 import ViewsIncrementer from "@/components/Views";
 import Image from "next/image";
 
+function getSmallCloudinary(url : string) {
+	// Get the part of the URL before the last slash
+	const beforeSlash = url.substring(0, url.lastIndexOf("/") + 1);
+
+	// Get the part of the URL after the last slash
+	const afterSlash = url.substring(url.lastIndexOf("/") + 1);
+
+	// Add 'thumbnail_' to the beginning of afterSlash
+	const smallAfterSlash = `thumbnail_${afterSlash}`;
+
+	// combine beforeSlah and smallAfterSlash
+	const newUrl = `${beforeSlash}${smallAfterSlash}`;
+
+	return newUrl;
+}
+
 export default async function Home({ params }: { params: { page: number } }) {
 	const gossipsResponse: GossipsResponseType = await getGossips({
 		pageNumber: params.page,
@@ -63,7 +79,9 @@ export default async function Home({ params }: { params: { page: number } }) {
 							src={image.info.secure_url}
 							width={image.info.width}
 							height={image.info.height}
-							alt={"fenn"}
+							// blurDataURL={getSmallCloudinary(image.info.secure_url)}
+							blurDataURL={image.info.thumbnail_url}
+							alt={image.info.url}
 							className="gossip-image"
 						/>
 					))}

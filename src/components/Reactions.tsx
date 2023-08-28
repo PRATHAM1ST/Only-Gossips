@@ -19,6 +19,7 @@ export default function Reactions({
 		id: string;
 		emojie: string;
 	} | null>(null);
+	const userId = localStorage.getItem("userId"); 
 	
 	const getCurrentUserReaction = () => {
 		const userId = localStorage.getItem("userId"); 
@@ -52,7 +53,7 @@ export default function Reactions({
 				.slice(-5)
 				.map(
 					(reaction: any, idx: number) =>
-						reaction.reactionId !== currentReaction?.id && (
+						reaction.userId !== userId && (
 							<div className="-ml-5" key={idx}>
 								{reaction.emojie}
 							</div>
