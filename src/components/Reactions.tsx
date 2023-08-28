@@ -9,10 +9,12 @@ export default function Reactions({
 	postId,
 	reactionsOnPost,
 	defaultReactionAdderArray,
+	setReactionsOnPostCount
 }: {
 	postId: string;
 	reactionsOnPost: any[];
 	defaultReactionAdderArray: ReactionsType[];
+	setReactionsOnPostCount: any;
 }) {
 	const [postReactions, setPostReactions] = useState<any[]>(reactionsOnPost);
 	const [currentReaction, setCurrentReaction] = useState<{
@@ -60,6 +62,7 @@ export default function Reactions({
 						)
 				)}
 			<ReactionAdder
+				setReactionsOnPostCount={setReactionsOnPostCount}
 				postId={postId}
 				reactions={defaultReactionAdderArray}
 				currentReaction={currentReaction}

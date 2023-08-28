@@ -11,6 +11,7 @@ import Reactions from "@/components/Reactions";
 import Report from "@/components/Report";
 import Views from "@/components/Views";
 import Image from "next/image";
+import PostFooter from "@/components/PostFooter";
 
 export default async function Home() {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -72,19 +73,7 @@ export default async function Home() {
 						dangerouslySetInnerHTML={{ __html: gossip.content }}
 					></div>
 
-					<div className="container-footer flex justify-between items-center mt-4">
-						<Report postId={gossip.id} />
-						<div className="stats font-bold text-neutral-500 text-xs">
-							<Views postId={gossip.id} views={gossip.views} />
-							{"•"} {gossip.totalReactions} Reactions
-						</div>
-
-						<Reactions
-							postId={gossip.id}
-							reactionsOnPost={gossip.reactions}
-							defaultReactionAdderArray={reactions}
-						/>
-					</div>
+					<PostFooter gossip={gossip} reactions={reactions} />
 				</div>
 			))}
 			<Pagination

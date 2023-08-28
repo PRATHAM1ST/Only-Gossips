@@ -11,7 +11,8 @@ export default function ReactionAdder({
 	reactions,
 	currentReaction,
 	setCurrentReaction,
-	setPostReactions
+	setPostReactions,
+	setReactionsOnPostCount,
 }: {
 	postId: string;
 	reactions: ReactionsType[];
@@ -21,6 +22,7 @@ export default function ReactionAdder({
 	} | null;
 	setCurrentReaction: any;
 	setPostReactions: any;
+	setReactionsOnPostCount: any;
 }) {
 	
 	const handleAddingReaction = (reactionId: string) => {
@@ -41,6 +43,7 @@ export default function ReactionAdder({
 					emojie: String(res.emojie),
 				});
 				setPostReactions(res.updatedPostReactions);
+				setReactionsOnPostCount((prev: number) => (prev += 1))
 			})
 			.catch((err) => {
 				console.log("err", err);
@@ -59,6 +62,7 @@ export default function ReactionAdder({
 					throw res.message;
 				}
 				setCurrentReaction(null);
+				setReactionsOnPostCount((prev: number) => (prev -= 1))
 			})
 			.catch((err) => {
 				console.log("err", err);
