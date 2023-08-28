@@ -74,18 +74,18 @@ export default async function Home({ params }: { params: { page: number } }) {
 							timeZone: "Asia/Kolkata",
 						})}
 					</div>
-					{gossip.images?.map((image: any) => (
-						<Image
-							key={image.info.id}
-							src={image.info.secure_url}
-							width={image.info.width}
-							height={image.info.height}
-							// blurDataURL={getSmallCloudinary(image.info.secure_url)}
-							blurDataURL={image.info.thumbnail_url}
-							alt={image.info.url}
-							className="gossip-image"
-						/>
-					))}
+					<div className="gossip-images flex gap-3 flex-wrap">
+						{gossip.images?.map((image: any, idx: number) => (
+							<Image
+								key={image.info.id}
+								src={image.info.secure_url}
+								width={image.info.width}
+								height={image.info.height}
+								alt={`${gossip.title} image ${idx}`}
+								className="gossip-image max-h-52 w-auto"
+							/>
+						))}
+					</div>
 					<div
 						className="gossip-message"
 						dangerouslySetInnerHTML={{ __html: gossip.content }}
