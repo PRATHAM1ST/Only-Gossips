@@ -12,10 +12,18 @@ export default function Header({ removeAdder = false }) {
 					Gossips
 				</span>
 			</Link>
-			{!removeAdder && (
+			{removeAdder ? (
+				<div
+					onClick={() => window.history.back()}
+					className="bg-red-500 text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-red-600 cursor-pointer select-none"
+				>
+					Cancel
+				</div>
+			) : (
 				<Link
 					href="/new"
 					className="bg-black text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-slate-900"
+					prefetch={true}
 				>
 					+Add Gossip
 				</Link>

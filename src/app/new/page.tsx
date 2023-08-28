@@ -12,6 +12,7 @@ import Header from "@/components/Header";
 import { CldUploadButton } from "next-cloudinary";
 import { CldImage } from "next-cloudinary";
 import { Prisma } from "@prisma/client";
+import { DeleteImage } from "./components/delete";
 
 type Reactions = {
 	id: string;
@@ -60,7 +61,17 @@ export default function New() {
 	const handleUpload = (e: any) => {
 		setUploadResponses((prev) => [...prev, e]);
 	};
-	const handleDelete = async (public_id: string) => {};
+	const handleDelete = async (public_id: string) => {
+		const res = await DeleteImage(public_id);
+		console.log('res', res);
+		if (res?.status) {
+			setUploadResponses((prev) =>
+				prev.filter((upload) => upload.info.public_id !== public_id)
+			);
+		} else {
+			console.log("Error deleting image");
+		}
+	};
 
 	useEffect(() => {
 		if (process.env.NODE_ENV !== "development") {
@@ -109,7 +120,7 @@ export default function New() {
 
 	return (
 		<div className="container mx-auto px-4 max-w-4xl">
-			<Header />
+			<Header removeAdder={true} />
 			<form
 				className={`grid gap-3 max-w-2xl mx-auto ${
 					postingDataLoading
@@ -216,20 +227,38 @@ export default function New() {
 							],
 						}}
 					/>
-					<div className="flex gap-3 my-4">
+					<div className="flex gap-3 my-4 items-center">
 						{uploadResponses?.map((uploadResponse) => (
-							<CldImage
+							<div
 								key={uploadResponse.info.id}
-								height={uploadResponse.info.height}
-								width={uploadResponse.info.width}
-								src={uploadResponse.info.public_id}
-								sizes="100vw"
-								alt="Description of my image"
-								onClick={() =>
-									handleDelete(uploadResponse.info.public_id)
-								}
-								className="w-20"
-							/>
+								className="relative"
+							>
+								<label
+									htmlFor={uploadResponse.info.id}
+									className="absolute top-0 right-0 translate-x-2/4 -translate-y-2/4 text-xs p-2 font-bold text-white bg-red-500 rounded cursor-pointer hover:bg-red-600"
+									onClick={() =>
+										handleDelete(
+											uploadResponse.info.public_id
+										)
+									}
+								>
+									x
+								</label>
+								<CldImage
+									id={uploadResponse.info.id}
+									height={uploadResponse.info.height}
+									width={uploadResponse.info.width}
+									src={uploadResponse.info.public_id}
+									sizes="100vw"
+									alt="Description of my image"
+									onClick={() =>
+										handleDelete(
+											uploadResponse.info.public_id
+										)
+									}
+									className="w-20 h-fit rounded-md peer"
+								/>
+							</div>
 						))}
 					</div>
 				</div>
