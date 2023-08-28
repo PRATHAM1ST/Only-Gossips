@@ -12,7 +12,7 @@ export default function Reactions({
 	setReactionsOnPostCount
 }: {
 	postId: string;
-	reactionsOnPost: any[];
+	reactionsOnPost: ReactionsType[];
 	defaultReactionAdderArray: ReactionsType[];
 	setReactionsOnPostCount: any;
 }) {

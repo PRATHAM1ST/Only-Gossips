@@ -13,6 +13,7 @@ export type GossipsType = {
 	totalReactions: number;
 	reactions?: any[];
 	images?: any[];
+	views?: any[];
 };
 
 export type GossipsResponseType = {
@@ -61,6 +62,8 @@ export async function getGossips({ pageNumber }: { pageNumber: number }): Promis
 			createdAt: "desc",
 		},
 	});
+
+	console.log('data: ', data);
 
 	// const views = await prisma.view.count({
 	// 	where: {
