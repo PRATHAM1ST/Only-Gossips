@@ -8,7 +8,7 @@ export default function Report({ postId }: { postId: string }) {
 	const [reportReason, setReportReason] = useState("");
 
 	const handleAddReport = () => {
-		const userId = localStorage.getItem("userId");
+		const userId = String(localStorage.getItem("userId"));
 		if (!userId) return;
 		if (
 			!reportReason &&

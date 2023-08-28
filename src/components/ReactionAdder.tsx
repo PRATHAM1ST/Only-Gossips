@@ -26,7 +26,7 @@ export default function ReactionAdder({
 }) {
 	
 	const handleAddingReaction = (reactionId: string) => {
-		const userId = localStorage.getItem("userId");
+		const userId = String(localStorage.getItem("userId"));
 		if (!userId) return;
 		console.log("adding reaction");
 		addPostReaction({

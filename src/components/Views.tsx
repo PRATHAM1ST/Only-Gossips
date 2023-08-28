@@ -11,7 +11,7 @@ export default function ViewsIncrementer({
 	views: object[];
 }) {
 	useEffect(() => {
-		const userId = localStorage.getItem("userId");
+		const userId = String(localStorage.getItem("userId"));
 		if (!userId) return;
 		if (process.env.NODE_ENV !== "development") {
 			increasePostViewCount({

@@ -21,10 +21,10 @@ export default function Reactions({
 		id: string;
 		emojie: string;
 	} | null>(null);
-	const userId = localStorage.getItem("userId"); 
+	const userId = String(localStorage.getItem("userId")); 
 	
 	const getCurrentUserReaction = () => {
-		const userId = localStorage.getItem("userId"); 
+		const userId = String(localStorage.getItem("userId")); 
 		if (!userId) return;
 		checkUserPostReaction({
 			userId: String(userId),
