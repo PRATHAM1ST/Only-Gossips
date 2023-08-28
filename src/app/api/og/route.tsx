@@ -13,7 +13,7 @@ export async function GET() {
 
 	return new ImageResponse(
 		(
-			<div tw="flex items-center justify-center h-full w-full text-9xl">
+			<div tw="flex items-center justify-center h-full w-full text-9xl bg-white">
 				<span
 					tw="leading-none"
 					style={{
