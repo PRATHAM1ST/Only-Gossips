@@ -13,6 +13,7 @@ import { CldUploadButton } from "next-cloudinary";
 import { CldImage } from "next-cloudinary";
 import { Prisma } from "@prisma/client";
 import { DeleteImage } from "./components/delete";
+import CloseIcon from '@mui/icons-material/Close';
 
 type Reactions = {
 	id: string;
@@ -63,7 +64,7 @@ export default function New() {
 	};
 	const handleDelete = async (public_id: string) => {
 		const res = await DeleteImage(public_id);
-		console.log('res', res);
+		console.log("res", res);
 		if (res?.status) {
 			setUploadResponses((prev) =>
 				prev.filter((upload) => upload.info.public_id !== public_id)
@@ -83,8 +84,12 @@ export default function New() {
 
 	function handleSubmit(formData: FormData) {
 		setPostingDataLoading(true);
+		if (gossip.split(" ").length < 10) {
+			setPostingDataLoading(false);
+			return;
+		}
 		const title = String(formData.get("title"));
-		const content = gossip;
+		const content = gossip as string;
 		const backgroundEmoji = String(formData.get("emojie"));
 		const userId = String(localStorage.getItem("userId"));
 		const data: RequestType = {
@@ -131,7 +136,7 @@ export default function New() {
 			>
 				<div className="input grid">
 					<label htmlFor="title" className="font-bold">
-						Title of the Gossip
+						Title of the Gossip*
 					</label>
 					<input
 						id="title"
@@ -145,8 +150,13 @@ export default function New() {
 				</div>
 				<div className="input grid gap-1">
 					<label htmlFor="gossip" className="font-bold">
-						Gossip
+						Gossip*
 					</label>
+					<div className="text-red-500 text-xs">
+						{gossip.split(" ").length < 10
+							? "Atleast 10 words needed"
+							: ""}
+					</div>
 					<ReactQuill
 						className={`${
 							inter.className
@@ -163,7 +173,7 @@ export default function New() {
 				</div>
 				<div className="emojie-selection">
 					<label htmlFor="gossip" className="font-bold">
-						Background Reaction
+						Background Reaction*
 					</label>
 					<div className="flex gap-3 my-4">
 						{reactions ? (
@@ -203,68 +213,75 @@ export default function New() {
 					</div>
 				</div>
 
-				<div className="flex gap-3 items-center">
-					<CldUploadButton
-						uploadPreset="gossip"
-						className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
-						onUpload={handleUpload}
-						options={{
-							clientAllowedFormats: [
-								"png",
-								"gif",
-								"jpeg",
-								"jpg",
-								"webp",
-								"heic",
-								"heif",
-							],
-							sources: [
-								"local",
-								"camera",
-								"google_drive",
-								"instagram",
-								"facebook",
-							],
-						}}
-					/>
-					<div className="flex gap-3 my-4 items-center">
-						{uploadResponses?.map((uploadResponse) => (
-							<div
-								key={uploadResponse.info.id}
-								className="relative"
-							>
-								<label
-									htmlFor={uploadResponse.info.id}
-									className="absolute top-0 right-0 translate-x-2/4 -translate-y-2/4 text-xs p-2 font-bold text-white bg-red-500 rounded cursor-pointer hover:bg-red-600"
-									onClick={() =>
-										handleDelete(
-											uploadResponse.info.public_id
-										)
-									}
+				<div>
+					<label htmlFor="gossip" className="font-bold">
+						Upload Image(s) <span className="text-xs font-light">(Optional)</span>
+					</label>
+					<div className="flex gap-3 items-center">
+						<CldUploadButton
+							uploadPreset="gossip"
+							className="bg-black hover:bg-slate-900 text-white py-1 px-3 my-3 text-sm rounded"
+							onUpload={handleUpload}
+							options={{
+								clientAllowedFormats: [
+									"png",
+									"gif",
+									"jpeg",
+									"jpg",
+									"webp",
+									"heic",
+									"heif",
+								],
+								sources: [
+									"local",
+									"camera",
+									"google_drive",
+									"instagram",
+									"facebook",
+								],
+							}}
+						/>
+						<div className="flex gap-6 flex-wrap my-4 items-center ease-in-out duration-300">
+							{uploadResponses?.map((uploadResponse) => (
+								<div
+									key={uploadResponse.info.id}
+									className="relative"
 								>
-									x
-								</label>
-								<CldImage
-									id={uploadResponse.info.id}
-									height={uploadResponse.info.height}
-									width={uploadResponse.info.width}
-									src={uploadResponse.info.public_id}
-									sizes="100vw"
-									alt="Description of my image"
-									onClick={() =>
-										handleDelete(
-											uploadResponse.info.public_id
-										)
-									}
-									className="w-20 h-fit rounded-md peer"
-								/>
-							</div>
-						))}
+									<label
+										htmlFor={uploadResponse.info.id}
+										className="absolute z-40 top-0 right-0 translate-x-2/4 -translate-y-2/4 text-xs p-1 w-5 h-5 flex justify-center items-center font-bold text-white bg-red-500 rounded cursor-pointer hover:bg-red-600"
+										onClick={() =>
+											handleDelete(
+												uploadResponse.info.public_id
+											)
+										}
+									>
+										<CloseIcon className="text-xs" style={{
+											fontSize: "0.75rem"
+										}}/>
+									</label>
+									<CldImage
+										id={uploadResponse.info.id}
+										height={uploadResponse.info.height}
+										width={uploadResponse.info.width}
+										src={uploadResponse.info.public_id}
+										sizes="100vw"
+										alt="Description of my image"
+										onClick={() =>
+											handleDelete(
+												uploadResponse.info.public_id
+											)
+										}
+										className="w-20 h-fit rounded-md peer"
+									/>
+								</div>
+							))}
+						</div>
 					</div>
 				</div>
 
 				<button
-					className={`bg-black text-white rounded-md px-2 text-xs font-bold h-fit py-1 hover:bg-slate-900`}
+					className={`bg-sky-500 text-white rounded-md px-2 text-lg font-bold h-fit py-2 hover:bg-sky-700 mb-24 ease-in-out duration-300`}
 					type="submit"
 				>
 					Submit
