@@ -15,9 +15,14 @@ export async function addPostReaction({
 	postId,
 	reactionId,
 }: RequestType) {
-	const getReaction = await prisma.reaction.findUnique({
+	const getReaction = await prisma.reaction.update({
 		where: {
 			id: reactionId,
+		},
+		data:{
+			totalUsed:{
+				increment : 1
+			}
 		},
 		select: {
 			emojie: true,
@@ -86,6 +91,9 @@ export async function addPostReaction({
 			id: postId,
 		},
 		data: {
+			totalReactions:{
+				increment : 1
+			},
 			reactions: [
 				...postReactions.reactions.filter(
 					(reac) => reac.userId !== userId
