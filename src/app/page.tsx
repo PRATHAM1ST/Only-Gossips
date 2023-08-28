@@ -7,9 +7,6 @@ import {
 } from "@/utils/getGossips";
 import Pagination from "@/components/Pagination";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
-import Reactions from "@/components/Reactions";
-import Report from "@/components/Report";
-import Views from "@/components/Views";
 import Image from "next/image";
 import PostFooter from "@/components/PostFooter";
 
@@ -58,16 +55,18 @@ export default async function Home() {
 							timeZone: "Asia/Kolkata",
 						})}
 					</div>
-					{gossip.images?.map((image: any) => (
-						<Image
-							key={image.info.id}
-							src={image.info.secure_url}
-							width={image.info.width}
-							height={image.info.height}
-							alt={"fenn"}
-							className="gossip-image"
-						/>
-					))}
+					<div className="gossip-images flex gap-3 flex-wrap">
+						{gossip.images?.map((image: any, idx: number) => (
+							<Image
+								key={image.info.id}
+								src={image.info.secure_url}
+								width={image.info.width}
+								height={image.info.height}
+								alt={`${gossip.title} image ${idx}`}
+								className="gossip-image max-h-52 w-auto"
+							/>
+						))}
+					</div>
 					<div
 						className="gossip-message"
 						dangerouslySetInnerHTML={{ __html: gossip.content }}
