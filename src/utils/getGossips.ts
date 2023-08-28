@@ -24,7 +24,7 @@ export type GossipsResponseType = {
 
 export async function getGossips({ pageNumber }: { pageNumber: number }): Promise<GossipsResponseType>{
 	const totalGossips = await prisma.post.count();
-	const gossipsPerPage = 2;
+	const gossipsPerPage = 5;
 	const totalGossipsPages = Math.ceil(totalGossips / gossipsPerPage);
 
 	if (pageNumber < 1) {
