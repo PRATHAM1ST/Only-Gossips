@@ -10,7 +10,9 @@ import Header from "@/components/Header";
 import { CldUploadButton } from "next-cloudinary";
 import { CldImage } from "next-cloudinary";
 import { DeleteImage } from "./components/delete";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
+import { addTempImageUpload } from "@/utils/addTempImageUpload";
+import { removeTempImageUpload } from "@/utils/removeTempImageUpload";
 
 type Reactions = {
 	id: string;
@@ -56,17 +58,25 @@ export default function New() {
 	const [uploadResponses, setUploadResponses] = useState<UploadResponse[]>(
 		[]
 	);
-	const [userId, setUserId] = useState<string>( String(localStorage.getItem("userId")) );
-	const handleUpload = (e: any) => {
-		setUploadResponses((prev) => [...prev, e]);
+	const [userId, setUserId] = useState<string>(
+		String(localStorage.getItem("userId"))
+	);
+
+	const handleUpload = async (e: any) => {
+		const tempid = await addTempImageUpload(e).then((res) => res.id);
+		setUploadResponses((prev) => [...prev, { ...e, tempid: tempid }]);
 	};
-	const handleDelete = async (public_id: string) => {
+
+	const handleDelete = async (uploadResponse: any) => {
+		const public_id = uploadResponse.info.public_id;
+		const tempid = uploadResponse.tempid;
 		const res = await DeleteImage(public_id);
 		console.log("res", res);
 		if (res?.status) {
 			setUploadResponses((prev) =>
 				prev.filter((upload) => upload.info.public_id !== public_id)
 			);
+			removeTempImageUpload(tempid);
 		} else {
 			console.log("Error deleting image");
 		}
@@ -98,13 +108,17 @@ export default function New() {
 		};
 
 		createPost(data)
-			.then((res) => {
+			.then(async (res) => {
 				if (!res.sucess) {
 					throw res.message;
 				}
 				formData.delete("title");
 				formData.delete("emojie");
 				setGossip("");
+
+				uploadResponses.forEach(async (uploadResponse: any) => {
+					await removeTempImageUpload(uploadResponse.tempid);
+				});
 
 				window.location.href = "/";
 			})
@@ -212,7 +226,8 @@ export default function New() {
 
 				<div>
 					<label htmlFor="gossip" className="font-bold">
-						Upload Image(s) <span className="text-xs font-light">(Optional)</span>
+						Upload Image(s){" "}
+						<span className="text-xs font-light">(Optional)</span>
 					</label>
 					<div className="flex gap-3 items-center">
 						<CldUploadButton
@@ -248,14 +263,15 @@ export default function New() {
 										htmlFor={uploadResponse.info.id}
 										className="absolute z-40 top-0 right-0 translate-x-2/4 -translate-y-2/4 text-xs p-1 w-5 h-5 flex justify-center items-center font-bold text-white bg-red-500 rounded cursor-pointer hover:bg-red-600"
 										onClick={() =>
-											handleDelete(
-												uploadResponse.info.public_id
-											)
+											handleDelete(uploadResponse)
 										}
 									>
-										<CloseIcon className="text-xs" style={{
-											fontSize: "0.75rem"
-										}}/>
+										<CloseIcon
+											className="text-xs"
+											style={{
+												fontSize: "0.75rem",
+											}}
+										/>
 									</label>
 									<CldImage
 										id={uploadResponse.info.id}
