@@ -44,7 +44,7 @@ export default async function Home() {
 						<h1 className="gossip-title text-5xl font-bold">
 							{gossip.title}
 						</h1>
-						<Share id={gossip.id}/>
+						<Share id={gossip.id} title={gossip.title} />
 					</div>
 					<div className="gossip-createdAt font-bold text-neutral-500 text-xs">
 						{new Date(gossip.createdAt).toLocaleString("en-US", {

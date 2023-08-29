@@ -23,20 +23,30 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function Share({ id }: { id: string }) {
+export default function Share({ id, title }: { id: string, title: string }) {
 	const [openPannel, setOpenPannel] = useState(false);
 	const shareUrl = `https://onlygossips.pratham-chudasama.co/view/${id}`;
+	const message = `Watch this Gossip on OnlyGossips\n\n${title}\n\nTell use what you think about this gossip.\nComment on OnlyGossips`;
 	return (
-		<div className="relative w-12">
+		<div
+			className="relative w-12 "
+			onMouseEnter={() => {
+				setOpenPannel(true);
+			}}
+			onMouseLeave={() => {
+				setOpenPannel(false);
+			}}
+		>
 			{!openPannel ? (
 				<ShareRoundedIcon
-					className="text-5xl cursor-pointer"
+					fontSize="large"
+					className="text-9xl cursor-pointer"
 					onClick={() => {
 						setOpenPannel(true);
 					}}
 				/>
 			) : (
-				<div className="absolute flex flex-col gap-3 bg-white">
+				<div className="absolute flex flex-col justify-center w-full pr-1 items-end gap-3 bg-white">
 					<CloseIcon
 						className="cursor-pointer"
 						onClick={() => {
@@ -50,47 +60,37 @@ export default function Share({ id }: { id: string }) {
 							navigator.clipboard.writeText(shareUrl);
 						}}
 					/>
-					<WhatsappShareButton
-						title="Watch this Gossip"
-						url={shareUrl}
-					>
+					<WhatsappShareButton title={message} url={shareUrl}>
 						<WhatsAppIcon />
 					</WhatsappShareButton>
-					<TwitterShareButton
-						title="Watch this Gossip"
-						url={shareUrl}
-					>
+					<TwitterShareButton title={message} url={shareUrl}>
 						<TwitterIcon />
 					</TwitterShareButton>
-					<LinkedinShareButton
-						title="Watch this Gossip"
-						url={shareUrl}
-					>
+					<LinkedinShareButton title={message} url={shareUrl}>
 						<LinkedInIcon />
 					</LinkedinShareButton>
-					<TelegramShareButton
-						title="Watch this Gossip"
-						url={shareUrl}
-					>
+					<TelegramShareButton title={message} url={shareUrl}>
 						<TelegramIcon />
 					</TelegramShareButton>
-					<RedditShareButton title="Watch this Gossip" url={shareUrl}>
+					<RedditShareButton title={message} url={shareUrl}>
 						<RedditIcon />
 					</RedditShareButton>
-					<FacebookShareButton
-						title="Watch this Gossip"
-						url={shareUrl}
-					>
+					<FacebookShareButton title={message} url={shareUrl}>
 						<FacebookIcon />
 					</FacebookShareButton>
 					<PinterestShareButton
-						title="Watch this Gossip"
+						title={message}
 						url={shareUrl}
 						media="https://onlygossips.pratham-chudasama.co/api/og"
 					>
 						<PinterestIcon />
 					</PinterestShareButton>
-					<EmailShareButton title="Watch this Gossip" url={shareUrl}>
+					<EmailShareButton 
+						title={message} 
+						url={shareUrl}
+						subject={title + " @ OnlyGossips"}
+						body={message}
+					>
 						<EmailIcon />
 					</EmailShareButton>
 				</div>
