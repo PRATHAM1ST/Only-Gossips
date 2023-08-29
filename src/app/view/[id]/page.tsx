@@ -4,6 +4,7 @@ import { getSingleGossip } from "@/utils/getSingleGossip";
 import Image from "next/image";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import { getReactions } from "@/utils/getReactions";
+import NotFound from "./not-found";
 
 export default async function Home({ params }: { params: { id: string } }) {
 	const gossip = await getSingleGossip(params.id);
@@ -11,12 +12,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 
 	if (!gossip)
 		return (
-			<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
-				<Header />
-				<h1 className="text-5xl font-bold text-center">
-					No Gossip Found
-				</h1>
-			</div>
+			<NotFound />
 		);
 
 	return (

@@ -13,7 +13,7 @@ import ViewsIncrementer from "@/components/Views";
 import Image from "next/image";
 import PostFooter from "@/components/PostFooter";
 
-function getSmallCloudinary(url : string) {
+function getSmallCloudinary(url: string) {
 	// Get the part of the URL before the last slash
 	const beforeSlash = url.substring(0, url.lastIndexOf("/") + 1);
 

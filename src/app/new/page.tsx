@@ -3,15 +3,12 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Link from "next/link";
 import { inter } from "../fonts";
 import { getReactions } from "@/utils/getReactions";
 import { RequestType, createPost } from "@/utils/createPost";
-import Upload from "./components/upload";
 import Header from "@/components/Header";
 import { CldUploadButton } from "next-cloudinary";
 import { CldImage } from "next-cloudinary";
-import { Prisma } from "@prisma/client";
 import { DeleteImage } from "./components/delete";
 import CloseIcon from '@mui/icons-material/Close';
 
