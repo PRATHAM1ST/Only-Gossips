@@ -9,6 +9,7 @@ import Pagination from "@/components/Pagination";
 import { ReactionsType, getReactions } from "@/utils/getReactions";
 import Image from "next/image";
 import PostFooter from "@/components/PostFooter";
+import Share from "@/components/Share";
 
 export default async function Home() {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -22,7 +23,7 @@ export default async function Home() {
 	return (
 		<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
 			<Header />
-			{gossips?.map((gossip: any) => (
+			{gossips?.map((gossip: GossipsType) => (
 				<div
 					key={gossip.id}
 					className="relative container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto overflow-hidden"
@@ -43,7 +44,7 @@ export default async function Home() {
 						<h1 className="gossip-title text-5xl font-bold">
 							{gossip.title}
 						</h1>
-						<ShareRoundedIcon className="text-5xl" />
+						<Share id={gossip.id}/>
 					</div>
 					<div className="gossip-createdAt font-bold text-neutral-500 text-xs">
 						{new Date(gossip.createdAt).toLocaleString("en-US", {

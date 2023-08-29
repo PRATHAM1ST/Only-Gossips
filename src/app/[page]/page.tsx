@@ -12,6 +12,7 @@ import Report from "@/components/Report";
 import ViewsIncrementer from "@/components/Views";
 import Image from "next/image";
 import PostFooter from "@/components/PostFooter";
+import Share from "@/components/Share";
 
 function getSmallCloudinary(url: string) {
 	// Get the part of the URL before the last slash
@@ -62,7 +63,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 						<h1 className="gossip-title text-5xl font-bold">
 							{gossip.title}
 						</h1>
-						<ShareRoundedIcon className="text-5xl" />
+						<Share id={gossip.id} />
 					</div>
 					<div className="gossip-createdAt font-bold text-neutral-500 text-xs">
 						{new Date(gossip.createdAt).toLocaleString("en-US", {

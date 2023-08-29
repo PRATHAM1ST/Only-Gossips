@@ -5,6 +5,7 @@ import Image from "next/image";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import { getReactions } from "@/utils/getReactions";
 import NotFound from "./not-found";
+import Share from "@/components/Share";
 
 export default async function Home({ params }: { params: { id: string } }) {
 	const gossip = await getSingleGossip(params.id);
@@ -38,7 +39,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 					<h1 className="gossip-title text-5xl font-bold">
 						{gossip.title}
 					</h1>
-					<ShareRoundedIcon className="text-5xl" />
+					<Share id={gossip.id}/>
 				</div>
 				<div className="gossip-createdAt font-bold text-neutral-500 text-xs">
 					{new Date(gossip.createdAt).toLocaleString("en-US", {
