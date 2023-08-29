@@ -3,7 +3,13 @@
 import React, { useState } from "react";
 import { addPostReport } from "@/utils/addPostReport";
 
-export default function Report({ postId, userId }: { postId: string, userId: string }) {
+export default function Report({
+	postId,
+	userId,
+}: {
+	postId: string;
+	userId: string;
+}) {
 	const [reportModal, setReportModal] = useState(false);
 	const [reportReason, setReportReason] = useState("");
 
@@ -42,28 +48,43 @@ export default function Report({ postId, userId }: { postId: string, userId: str
 			{reportModal && (
 				<div className="report-modal w-full h-full absolute top-0 left-0 overflow-hidden flex justify-center items-center">
 					<div
-						className="absolute modal-bg bg-red-300/[0.5] w-full h-full z-10 backdrop-blur-lg"
+						className="absolute modal-bg bg-white/[0.5] w-full h-full z-10 backdrop-blur-lg"
 						onClick={() => {
 							setReportModal(false);
 							setReportReason("");
 						}}
 					></div>
-					<form className="modal-input z-20 flex gap-4 justify-center items-center">
-						<input
-							className="bg-white rounded border-2 border-black px-3 py-1"
-							type="text"
+					<form
+						className="modal-input z-20 flex flex-col gap-4 justify-center items-center w-3/4"
+						onSubmit={handleAddReport}
+					>
+						<textarea
+							className="bg-white rounded border-2 border-red-500 outline-none focus:border-3 px-3 py-1 w-full h-40 resize-none"
 							placeholder="Reason for Report"
 							minLength={20}
 							maxLength={200}
 							value={reportReason}
 							onChange={(e) => setReportReason(e.target.value)}
+							required
 						/>
-						<button
-							className="report bg-black rounded border-2 border-black px-3 py-1 text-white cursor-pointer"
-							onClick={handleAddReport}
-						>
-							Submit
-						</button>
+
+						<div className="flex gap-3">
+							<button
+								className="report bg-red-500 hover:bg-red-700 rounded border-2 border-black px-3 py-1 text-white cursor-pointer"
+								type="submit"
+							>
+								Submit
+							</button>
+							<button
+								className="cancel mx-3 my-1 cursor-pointer"
+								onClick={() => {
+									setReportModal(false);
+									setReportReason("");
+								}}
+							>
+								Cancel
+							</button>
+						</div>
 					</form>
 				</div>
 			)}
