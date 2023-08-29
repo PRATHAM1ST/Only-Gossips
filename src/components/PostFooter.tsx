@@ -17,21 +17,21 @@ export default function PostFooter({
 	const [reactionsOnPostCount, setReactionsOnPostCount] = useState<number>(
 		gossip.totalReactions
 	);
-	const [userId, setUserId] = useState<string>( String(localStorage.getItem("userId")) );
+	const [userId, setUserId] = useState<string>(
+		String(localStorage.getItem("userId"))
+	);
 
 	return (
 		<div className="container-footer flex justify-between items-center mt-4">
-			<Report 
-				userId={userId}
-				postId={gossip.id}
-			/>
+			<Report userId={userId} postId={gossip.id} />
 			<div className="stats font-bold text-neutral-500 text-xs">
 				<ViewsIncrementer
 					userId={userId}
 					postId={gossip.id}
 					views={gossip.views ?? []}
 				/>
-				{"•"} {reactionsOnPostCount} Reactions
+				{" • "}
+				{reactionsOnPostCount} Reactions
 			</div>
 			<Reactions
 				userId={userId}
