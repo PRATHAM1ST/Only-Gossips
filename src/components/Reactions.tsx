@@ -6,11 +6,13 @@ import { ReactionsType } from "@/utils/getReactions";
 import { checkUserPostReaction } from "@/utils/checkUserPostReaction";
 
 export default function Reactions({
+	userId,
 	postId,
 	reactionsOnPost,
 	defaultReactionAdderArray,
 	setReactionsOnPostCount
 }: {
+	userId: string;
 	postId: string;
 	reactionsOnPost: ReactionsType[];
 	defaultReactionAdderArray: ReactionsType[];
@@ -20,11 +22,9 @@ export default function Reactions({
 	const [currentReaction, setCurrentReaction] = useState<{
 		id: string;
 		emojie: string;
-	} | null>(null);
-	const userId = String(localStorage.getItem("userId")); 
+	} | null>(null); 
 	
-	const getCurrentUserReaction = () => {
-		const userId = String(localStorage.getItem("userId")); 
+	const getCurrentUserReaction = () => { 
 		if (!userId) return;
 		checkUserPostReaction({
 			userId: String(userId),
@@ -62,6 +62,7 @@ export default function Reactions({
 						)
 				)}
 			<ReactionAdder
+				userId={userId}
 				setReactionsOnPostCount={setReactionsOnPostCount}
 				postId={postId}
 				reactions={defaultReactionAdderArray}

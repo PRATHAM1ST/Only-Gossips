@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { ReactionsType } from "@/utils/getReactions";
 import { addPostReaction } from "@/utils/addPostReaction";
 import { removePostReaction } from "@/utils/removePostReaction";
 
 export default function ReactionAdder({
+	userId,
 	postId,
 	reactions,
 	currentReaction,
@@ -14,6 +15,7 @@ export default function ReactionAdder({
 	setPostReactions,
 	setReactionsOnPostCount,
 }: {
+	userId: string;
 	postId: string;
 	reactions: ReactionsType[];
 	currentReaction: {
@@ -26,7 +28,6 @@ export default function ReactionAdder({
 }) {
 	
 	const handleAddingReaction = (reactionId: string) => {
-		const userId = String(localStorage.getItem("userId"));
 		if (!userId) return;
 		console.log("adding reaction");
 		addPostReaction({
@@ -54,7 +55,7 @@ export default function ReactionAdder({
 		console.log("removing reaction");
 
 		removePostReaction({
-			userId: String(localStorage.getItem("userId")),
+			userId: userId,
 			postId: postId,
 		})
 			.then((res) => {

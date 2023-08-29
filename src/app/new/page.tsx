@@ -59,6 +59,7 @@ export default function New() {
 	const [uploadResponses, setUploadResponses] = useState<UploadResponse[]>(
 		[]
 	);
+	const [userId, setUserId] = useState<string>( String(localStorage.getItem("userId")) );
 	const handleUpload = (e: any) => {
 		setUploadResponses((prev) => [...prev, e]);
 	};
@@ -91,7 +92,6 @@ export default function New() {
 		const title = String(formData.get("title"));
 		const content = gossip as string;
 		const backgroundEmoji = String(formData.get("emojie"));
-		const userId = String(localStorage.getItem("userId"));
 		const data: RequestType = {
 			title,
 			content,

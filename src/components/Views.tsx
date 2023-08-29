@@ -4,14 +4,15 @@ import { useEffect } from "react";
 import { increasePostViewCount } from "@/utils/increasePostViewCount";
 
 export default function ViewsIncrementer({
+	userId,
 	postId,
 	views,
 }: {
+	userId: string;
 	postId: string;
 	views: object[];
 }) {
 	useEffect(() => {
-		const userId = String(localStorage.getItem("userId"));
 		if (!userId) return;
 		if (process.env.NODE_ENV !== "development") {
 			increasePostViewCount({
@@ -24,7 +25,7 @@ export default function ViewsIncrementer({
 				.catch((err) => {
 					console.error(err);
 				});
-		}
+		} // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [postId]);
 
 	return <>{Number(views.length) + 1} Views</>;
