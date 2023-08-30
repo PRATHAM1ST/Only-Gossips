@@ -14,7 +14,7 @@ export default function Pagination({
 			<a
 				className={style}
 				data-disabled={currentPage == 1}
-				href={`/${currentPage - 1}`}
+				href={`/page/${currentPage - 1}`}
 			>
 				Previous
 			</a>
@@ -29,7 +29,7 @@ export default function Pagination({
 						<a
 							key={idx}
 							className={style}
-							href={`/${idx + 1}`}
+							href={`/page/${idx + 1}`}
 						>
 							{idx + 1}
 						</a>
@@ -38,7 +38,7 @@ export default function Pagination({
 			<a
 				className={style}
 				data-disabled={currentPage == totalPagesCount}
-				href={`/${Number(currentPage) + 1}`}
+				href={`/page/${Number(currentPage) + 1}`}
 			>
 				Next
 			</a>

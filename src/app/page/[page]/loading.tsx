@@ -1,4 +1,4 @@
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 
 export default async function Loading() {
 	const bgColor = "bg-gray-300";

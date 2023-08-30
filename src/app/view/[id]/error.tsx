@@ -1,7 +1,6 @@
 "use client"; // Error components must be Client Components
 
 import Header from "@/components/Header";
-import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { useEffect } from "react";

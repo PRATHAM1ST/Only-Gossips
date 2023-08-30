@@ -1,5 +1,4 @@
-import Header from "../../components/Header";
-import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
+import Header from "../../../components/Header";
 import {
 	GossipsType,
 	getGossips,
@@ -7,28 +6,9 @@ import {
 } from "@/utils/Gossip/getGossips";
 import Pagination from "@/components/Pagination";
 import { ReactionsType, getReactions } from "@/utils/Reaction/getReactions";
-import Reactions from "@/components/Reactions";
-import Report from "@/components/Post/Footer/Report";
-import ViewsIncrementer from "@/components/Post/Footer/Views";
 import Image from "next/image";
 import PostFooter from "@/components/Post/Footer/PostFooter";
 import Share from "@/components/Post/Share";
-
-function getSmallCloudinary(url: string) {
-	// Get the part of the URL before the last slash
-	const beforeSlash = url.substring(0, url.lastIndexOf("/") + 1);
-
-	// Get the part of the URL after the last slash
-	const afterSlash = url.substring(url.lastIndexOf("/") + 1);
-
-	// Add 'thumbnail_' to the beginning of afterSlash
-	const smallAfterSlash = `thumbnail_${afterSlash}`;
-
-	// combine beforeSlah and smallAfterSlash
-	const newUrl = `${beforeSlash}${smallAfterSlash}`;
-
-	return newUrl;
-}
 
 export default async function Home({ params }: { params: { page: number } }) {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -42,7 +22,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 	return (
 		<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
 			<Header />
-			{gossips.map((gossip: any) => (
+			{gossips.map((gossip: GossipsType) => (
 				<div
 					key={gossip.id}
 					className="relative container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto overflow-hidden"

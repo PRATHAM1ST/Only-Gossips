@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import PostFooter from "@/components/Post/Footer/PostFooter";
 import { getSingleGossip } from "@/utils/Gossip/getSingleGossip";
 import Image from "next/image";
-import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import { getReactions } from "@/utils/Reaction/getReactions";
 import NotFound from "./not-found";
 import Share from "@/components/Post/Share";

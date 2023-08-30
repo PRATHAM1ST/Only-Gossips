@@ -1,5 +1,4 @@
 import Header from "../components/Header";
-import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import {
 	GossipsType,
 	getGossips,
