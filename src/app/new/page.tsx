@@ -58,9 +58,15 @@ export default function New() {
 	const [uploadResponses, setUploadResponses] = useState<UploadResponse[]>(
 		[]
 	);
-	const [userId, setUserId] = useState<string>(
-		String(localStorage.getItem("userId"))
-	);
+	// Get userId from localStorage and set it in state
+	const [userId, setUserId] = useState<string>("");
+
+	useEffect(() => {
+		const storedUserId = localStorage.getItem("userId");
+		if (storedUserId) {
+			setUserId(storedUserId);
+		}
+	}, []);
 
 	const handleUpload = async (e: any) => {
 		const tempid = await addTempImageUpload(e).then((res) => res.id);

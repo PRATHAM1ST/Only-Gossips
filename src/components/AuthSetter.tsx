@@ -4,9 +4,16 @@ import { createUser } from "@/utils/createUser";
 import { useEffect, useState } from "react";
 
 export default function AuthSetter() {
-	const [userId, setUserId] = useState<string>(
-		String(localStorage.getItem("userId"))
-	);
+	// Get userId from localStorage and set it in state
+	const [userId, setUserId] = useState<string>("");
+
+	useEffect(() => {
+		const storedUserId = localStorage.getItem("userId");
+		if (storedUserId) {
+			setUserId(storedUserId);
+		}
+	}, []);
+	
 	useEffect(() => {
 		checkUserExists(userId).then((res) => {
 			if (!res) {

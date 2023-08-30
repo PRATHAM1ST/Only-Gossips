@@ -1,6 +1,5 @@
 "use client";
-
-import { use, useState } from "react";
+import { useEffect, useState } from "react";
 import Reactions from "./Reactions";
 import Report from "./Report";
 import ViewsIncrementer from "./Views";
@@ -17,9 +16,16 @@ export default function PostFooter({
 	const [reactionsOnPostCount, setReactionsOnPostCount] = useState<number>(
 		gossip.totalReactions
 	);
-	const [userId, setUserId] = useState<string>(
-		String(localStorage.getItem("userId"))
-	);
+
+	// Get userId from localStorage and set it in state
+	const [userId, setUserId] = useState<string>("");
+
+	useEffect(() => {
+		const storedUserId = localStorage.getItem("userId");
+		if (storedUserId) {
+			setUserId(storedUserId);
+		}
+	}, []);
 
 	return (
 		<div className="container-footer flex justify-between items-center mt-4">
