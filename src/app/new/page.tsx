@@ -4,15 +4,15 @@ import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { inter } from "../fonts";
-import { getReactions } from "@/utils/getReactions";
-import { RequestType, createPost } from "@/utils/createPost";
+import { getReactions } from "@/utils/Reaction/getReactions";
+import { RequestType, createPost } from "@/utils/Gossip/Create/createPost";
 import Header from "@/components/Header";
 import { CldUploadButton } from "next-cloudinary";
 import { CldImage } from "next-cloudinary";
 import { DeleteImage } from "./components/delete";
 import CloseIcon from "@mui/icons-material/Close";
-import { addTempImageUpload } from "@/utils/addTempImageUpload";
-import { removeTempImageUpload } from "@/utils/removeTempImageUpload";
+import { addTempImageUpload } from "@/utils/Temp/addTempImageUpload";
+import { removeTempImageUpload } from "@/utils/Temp/removeTempImageUpload";
 
 type Reactions = {
 	id: string;

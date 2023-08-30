@@ -1,11 +1,11 @@
 import Header from "@/components/Header";
-import PostFooter from "@/components/PostFooter";
-import { getSingleGossip } from "@/utils/getSingleGossip";
+import PostFooter from "@/components/Post/Footer/PostFooter";
+import { getSingleGossip } from "@/utils/Gossip/getSingleGossip";
 import Image from "next/image";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
-import { getReactions } from "@/utils/getReactions";
+import { getReactions } from "@/utils/Reaction/getReactions";
 import NotFound from "./not-found";
-import Share from "@/components/Share";
+import Share from "@/components/Post/Share";
 
 export default async function Home({ params }: { params: { id: string } }) {
 	const gossip = await getSingleGossip(params.id);

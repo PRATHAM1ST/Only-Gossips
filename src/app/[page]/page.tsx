@@ -4,15 +4,15 @@ import {
 	GossipsType,
 	getGossips,
 	GossipsResponseType,
-} from "@/utils/getGossips";
+} from "@/utils/Gossip/getGossips";
 import Pagination from "@/components/Pagination";
-import { ReactionsType, getReactions } from "@/utils/getReactions";
+import { ReactionsType, getReactions } from "@/utils/Reaction/getReactions";
 import Reactions from "@/components/Reactions";
-import Report from "@/components/Report";
-import ViewsIncrementer from "@/components/Views";
+import Report from "@/components/Post/Footer/Report";
+import ViewsIncrementer from "@/components/Post/Footer/Views";
 import Image from "next/image";
-import PostFooter from "@/components/PostFooter";
-import Share from "@/components/Share";
+import PostFooter from "@/components/Post/Footer/PostFooter";
+import Share from "@/components/Post/Share";
 
 function getSmallCloudinary(url: string) {
 	// Get the part of the URL before the last slash

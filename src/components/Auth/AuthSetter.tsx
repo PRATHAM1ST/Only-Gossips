@@ -1,6 +1,6 @@
 "use client";
-import { checkUserExists } from "@/utils/checkUserExists";
-import { createUser } from "@/utils/createUser";
+import { checkUserExists } from "@/utils/User/checkUserExists";
+import { createUser } from "@/utils/User/createUser";
 import { useEffect, useState } from "react";
 
 export default function AuthSetter() {

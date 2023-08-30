@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { addPostReport } from "@/utils/addPostReport";
+import { addPostReport } from "@/utils/Gossip/Report/addPostReport";
 
 export default function Report({
 	postId,

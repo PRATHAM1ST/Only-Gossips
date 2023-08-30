@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import Reactions from "./Reactions";
+import Reactions from "./Reaction/Reactions";
 import Report from "./Report";
 import ViewsIncrementer from "./Views";
-import { GossipsType } from "@/utils/getGossips";
-import { ReactionsType } from "@/utils/getReactions";
+import { GossipsType } from "@/utils/Gossip/getGossips";
+import { ReactionsType } from "@/utils/Reaction/getReactions";
 
 export default function PostFooter({
 	gossip,

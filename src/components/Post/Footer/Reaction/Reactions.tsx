@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import ReactionAdder from "./ReactionAdder";
-import { ReactionsType } from "@/utils/getReactions";
-import { checkUserPostReaction } from "@/utils/checkUserPostReaction";
+import { ReactionsType } from "@/utils/Reaction/getReactions";
+import { checkUserPostReaction } from "@/utils/User/checkUserPostReaction";
 
 export default function Reactions({
 	userId,

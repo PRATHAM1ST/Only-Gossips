@@ -1,10 +1,9 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { ReactionsType } from "@/utils/getReactions";
-import { addPostReaction } from "@/utils/addPostReaction";
-import { removePostReaction } from "@/utils/removePostReaction";
+import { ReactionsType } from "@/utils/Reaction/getReactions";
+import { addPostReaction } from "@/utils/Gossip/Reaction/addPostReaction";
+import { removePostReaction } from "@/utils/Gossip/Reaction/removePostReaction";
 
 export default function ReactionAdder({
 	userId,

@@ -4,12 +4,12 @@ import {
 	GossipsType,
 	getGossips,
 	GossipsResponseType,
-} from "@/utils/getGossips";
+} from "@/utils/Gossip/getGossips";
 import Pagination from "@/components/Pagination";
-import { ReactionsType, getReactions } from "@/utils/getReactions";
+import { ReactionsType, getReactions } from "@/utils/Reaction/getReactions";
 import Image from "next/image";
-import PostFooter from "@/components/PostFooter";
-import Share from "@/components/Share";
+import PostFooter from "@/components/Post/Footer/PostFooter";
+import Share from "@/components/Post/Share";
 
 export default async function Home() {
 	const gossipsResponse: GossipsResponseType = await getGossips({

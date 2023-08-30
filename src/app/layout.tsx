@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import AuthSetter from "../components/AuthSetter";
+import AuthSetter from "../components/Auth/AuthSetter";
 import { inter } from "./fonts";
 
 export const metadata: Metadata = {

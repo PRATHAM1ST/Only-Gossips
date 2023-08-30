@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { increasePostViewCount } from "@/utils/increasePostViewCount";
+import { increasePostViewCount } from "@/utils/Gossip/View/increasePostViewCount";
 
 export default function ViewsIncrementer({
 	userId,
