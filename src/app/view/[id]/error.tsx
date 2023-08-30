@@ -1,6 +1,5 @@
 "use client"; // Error components must be Client Components
 
-import Header from "@/components/Header";
 import HomeIcon from "@mui/icons-material/Home";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { useEffect } from "react";
@@ -18,8 +17,7 @@ export default function Error({
 	}, [error]);
 
 	return (
-		<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
-			<Header />
+		<div className="absolute inset-0 m-auto container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
 			<div className="flex flex-col items-center justify-center mt-24">
 				<h1 className="text-7xl font-bold text-center">
 					Something went wrong!
