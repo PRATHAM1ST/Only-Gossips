@@ -6,7 +6,7 @@ import {
 } from "@/utils/Gossip/getGossips";
 import Pagination from "@/components/Pagination";
 import { ReactionsType, getReactions } from "@/utils/Reaction/getReactions";
-import Image from "next/image";
+import Image from "@/components/Image";
 import PostFooter from "@/components/Post/Footer/PostFooter";
 import Share from "@/components/Post/Share";
 
