@@ -15,6 +15,7 @@ export default function AuthSetter() {
 	}, []);
 	
 	useEffect(() => {
+		if (!userId) return;
 		checkUserExists(userId).then((res) => {
 			if (!res) {
 				createUser().then((res) => {

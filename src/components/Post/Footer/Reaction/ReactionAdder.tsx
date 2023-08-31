@@ -38,12 +38,12 @@ export default function ReactionAdder({
 				if (!res.success) {
 					throw res.message;
 				}
+				setReactionsOnPostCount((prev: number) => currentReaction === null ? (prev += 1) : prev)
 				setCurrentReaction({
 					id: String(res.reactionId),
 					emojie: String(res.emojie),
 				});
 				setPostReactions(res.updatedPostReactions);
-				setReactionsOnPostCount((prev: number) => (prev += 1))
 			})
 			.catch((err) => {
 				console.log("err", err);
