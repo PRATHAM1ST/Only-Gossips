@@ -3,19 +3,26 @@ import Image from "next/image";
 import { getPlaiceholder } from "plaiceholder";
 
 const getImage = async (src: string) => {
-	const buffer = await fetch(src).then(async (res) =>
-		Buffer.from(await res.arrayBuffer())
-	);
+	try {
+		const buffer = await fetch(src).then(async (res) =>
+			Buffer.from(await res.arrayBuffer())
+		);
 
-	const {
-		metadata: { height, width },
-		...plaiceholder
-	} = await getPlaiceholder(buffer, { size: 10 });
+		const {
+			metadata: { height, width },
+			...plaiceholder
+		} = await getPlaiceholder(buffer, { size: 10 });
 
-	return {
-		...plaiceholder,
-		img: { src, height, width },
-	};
+		return {
+			...plaiceholder,
+			img: { src, height, width },
+		};
+	} catch (e) {
+		return {
+			base64: "",
+			img: { src, height: 0, width: 0 },
+		};
+	}
 };
 
 export default async function CustomImage({
@@ -32,6 +39,7 @@ export default async function CustomImage({
 	className: string;
 }) {
 	const { base64, img } = await getImage(src);
+	if (img.height === 0 || img.width === 0) return null;
 	return (
 		<Image
 			src={src}
