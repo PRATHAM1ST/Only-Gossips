@@ -160,7 +160,7 @@ export default function New() {
 					<Input
 						id="title"
 						type="text"
-						className="border-2 border-black dark:border-white dark:bg-slate-900 rounded px-4 py-1"
+						className="border-2 border-black dark:border-slate-500 dark:bg-slate-900 rounded px-4 py-1"
 						data-title="Title of the Gossip"
 						name="title"
 						disabled={postingDataLoading}
@@ -184,7 +184,7 @@ export default function New() {
 								? "cursor-not-allowed select-none"
 								: ""
 						}
-						dark:border-white
+						dark:border-slate-500
 						dark:bg-slate-900
 						dark:text-white
 						`}
@@ -243,7 +243,7 @@ export default function New() {
 					</label>
 					<div className="flex gap-3 items-center my-3">
 						<CldUploadButton
-							className="p-20 outline-dashed rounded dark:bg-slate-900 bg-slate-100"
+							className="p-20 outline-dashed dark:outline-slate-500 rounded dark:bg-slate-900 bg-slate-100"
 							uploadPreset="gossip"
 							onUpload={handleUpload}
 							options={{
