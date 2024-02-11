@@ -36,7 +36,7 @@ export default function Share({ id, title }: { id: string; title: string }) {
 	const shareUrl = `https://onlygossips.pratham-chudasama.co/view/${id}`;
 	const message = `Watch this Gossip on OnlyGossips\n\n${title}\n\nTell use what you think about this gossip.\nComment on OnlyGossips\n`;
 	return (
-		<div className="relative w-12 ">
+		<div className="relative w-12 flex justify-center items-center">
 			<Dialog>
 				<DialogTrigger>
 					<ShareRoundedIcon

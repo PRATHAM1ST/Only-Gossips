@@ -16,6 +16,7 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Badge } from "@/components/ui/badge";
 
 export default async function Home({ params }: { params: { page: number } }) {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -32,7 +33,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 			{gossips.map((gossip: GossipsType) => (
 				<div
 					key={gossip.id}
-					className="relative container grid gap-3 border-2 border-black dark:border-slate-300 rounded-2xl px-6 py-7 max-w-2xl mx-auto overflow-hidden"
+					className="relative container grid gap-3 border-2 border-black dark:border-slate-300 rounded-2xl px-6 py-7 max-w-2xl mx-auto "
 				>
 					<div
 						className="absolute m-10 top-0 right-0 opacity-10 text-9xl select-none"
@@ -46,22 +47,28 @@ export default async function Home({ params }: { params: { page: number } }) {
 					>
 						{gossip.backgroundEmoji}
 					</div>
-					<div className="container-header flex justify-between">
-						<h1 className="gossip-title text-5xl font-bold">
-							{gossip.title}
-						</h1>
+					<h1 className="gossip-title text-5xl font-bold">
+						{gossip.title}
+					</h1>
+					<Badge className="w-fit h-fit" variant={"secondary"}>
+						{new Date(gossip.createdAt).toLocaleString(
+							"en-US",
+							{
+								hour12: true,
+								day: "numeric",
+								month: "short",
+								year: "numeric",
+								hour: "2-digit",
+								timeZone: "Asia/Kolkata",
+							}
+						)}
+					</Badge>
+					<Badge 
+						className="aspect-square absolute left-full top-0 translate-y-2/4 -translate-x-2/4 flex justify-center items-center bg-white dark:bg-slate-950"
+						variant={"outline"}
+					>
 						<Share id={gossip.id} title={gossip.title} />
-					</div>
-					<div className="gossip-createdAt font-bold text-neutral-500 text-xs">
-						{new Date(gossip.createdAt).toLocaleString("en-US", {
-							hour12: true,
-							day: "numeric",
-							month: "short",
-							year: "numeric",
-							hour: "2-digit",
-							timeZone: "Asia/Kolkata",
-						})}
-					</div>
+					</Badge>
 					{!!gossip.images?.length && (
 						<div className="gossip-images flex gap-3 flex-wrap m-auto">
 							<Carousel>
@@ -80,12 +87,12 @@ export default async function Home({ params }: { params: { page: number } }) {
 										)
 									)}
 								</CarouselContent>
-								{gossip.images?.length > 1 &&
+								{gossip.images?.length > 1 && (
 									<>
 										<CarouselPrevious />
 										<CarouselNext />
 									</>
-								}
+								)}
 							</Carousel>
 						</div>
 					)}
