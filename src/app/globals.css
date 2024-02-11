@@ -74,3 +74,40 @@
     @apply bg-background text-foreground;
   }
 }
+
+.ql-container {
+	font-family: inherit !important;
+	border: none !important;
+}
+
+.ql-editor{
+	min-height: 15em !important;
+}
+
+.ql-toolbar.ql-snow {
+	border: none !important;
+	border-bottom: inherit !important;
+	height: fit-content !important;
+	/* border-radius: inherit !important; */
+}
+
+.add-reaction > label {
+	opacity: 0 !important;
+	user-select: none !important;
+	height: 0 !important;
+	width: 0 !important;
+	display: none !important;
+}
+
+.add-reaction:hover > label {
+	opacity: 100 !important;
+	user-select: auto !important;
+	height: fit-content !important;
+	width: fit-content !important;
+	display: flex !important;
+}
+
+a[data-disabled='true'] {
+	pointer-events: none;
+	opacity: 0.2;
+}

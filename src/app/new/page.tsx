@@ -14,6 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { addTempImageUpload } from "@/utils/Temp/addTempImageUpload";
 import { removeTempImageUpload } from "@/utils/Temp/removeTempImageUpload";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Reactions = {
 	id: string;
@@ -156,10 +157,10 @@ export default function New() {
 					<label htmlFor="title" className="font-bold">
 						Title of the Gossip*
 					</label>
-					<input
+					<Input
 						id="title"
 						type="text"
-						className="border-2 border-black rounded px-4 py-1"
+						className="border-2 border-black dark:border-white dark:bg-slate-900 rounded px-4 py-1"
 						data-title="Title of the Gossip"
 						name="title"
 						disabled={postingDataLoading}
@@ -182,7 +183,11 @@ export default function New() {
 							postingDataLoading
 								? "cursor-not-allowed select-none"
 								: ""
-						}`}
+						}
+						dark:border-white
+						dark:bg-slate-900
+						dark:text-white
+						`}
 						theme="snow"
 						value={gossip}
 						onChange={setGossip}
@@ -236,31 +241,30 @@ export default function New() {
 						Upload Image(s){" "}
 						<span className="text-xs font-light">(Optional)</span>
 					</label>
-					<div className="flex gap-3 items-center">
-						<Button>
-							<CldUploadButton
-								uploadPreset="gossip"
-								onUpload={handleUpload}
-								options={{
-									clientAllowedFormats: [
-										"png",
-										"gif",
-										"jpeg",
-										"jpg",
-										"webp",
-										"heic",
-										"heif",
-									],
-									sources: [
-										"local",
-										"camera",
-										"google_drive",
-										"instagram",
-										"facebook",
-									],
-								}}
-							/>
-						</Button>
+					<div className="flex gap-3 items-center my-3">
+						<CldUploadButton
+							className="p-20 outline-dashed rounded dark:bg-slate-900 bg-slate-100"
+							uploadPreset="gossip"
+							onUpload={handleUpload}
+							options={{
+								clientAllowedFormats: [
+									"png",
+									"gif",
+									"jpeg",
+									"jpg",
+									"webp",
+									"heic",
+									"heif",
+								],
+								sources: [
+									"local",
+									"camera",
+									"google_drive",
+									"instagram",
+									"facebook",
+								],
+							}}
+						/>
 						<div className="flex gap-6 flex-wrap my-4 items-center ease-in-out duration-300">
 							{uploadResponses?.map((uploadResponse) => (
 								<div
@@ -301,7 +305,7 @@ export default function New() {
 					</div>
 				</div>
 
-				<Button type="submit">Submit</Button>
+				<Button className="my-5 mb-8" type="submit">Submit</Button>
 			</form>
 		</div>
 	);
