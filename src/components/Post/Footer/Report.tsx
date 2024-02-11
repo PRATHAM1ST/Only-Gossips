@@ -76,7 +76,7 @@ export default function Report({
 							<DrawerTitle>Are you absolutely sure?</DrawerTitle>
 							<DrawerDescription>
 								<Textarea
-									className="bg-white rounded border-2 border-red-500 outline-none focus:border-3 px-3 py-2 w-full sm:min-w-[500px] h-40 resize-none"
+									className=" rounded border-2 border-red-500 outline-none focus:border-3 px-3 py-2 w-full sm:min-w-[500px] h-40 resize-none"
 									placeholder="Reason for Report"
 									minLength={20}
 									maxLength={200}
