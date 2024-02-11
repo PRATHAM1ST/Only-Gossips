@@ -6,8 +6,8 @@ export default function Pagination({
 	totalPagesCount: number;
 }) {
 	const style =
-		"border-2 border-black px-2 py-1 rounded flex justify-center items-center text-xs font-bold user-select-none cursor-pointer w-fit";
-	const activeStyle = "bg-black text-white rounded ease-in-out duration-300";
+		"border-2 border-black dark:border-white px-2 py-1 rounded flex justify-center items-center text-xs font-bold user-select-none cursor-pointer w-fit";
+	const activeStyle = "bg-black dark:bg-white text-white dark:text-black rounded ease-in-out duration-300";
 
 	return (
 		<footer className="flex gap-1 justify-center items-center mt-8">
