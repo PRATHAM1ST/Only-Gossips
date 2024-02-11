@@ -32,7 +32,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 			{gossips.map((gossip: GossipsType) => (
 				<div
 					key={gossip.id}
-					className="relative container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto overflow-hidden"
+					className="relative container grid gap-3 border-2 border-black dark:border-slate-300 rounded-2xl px-6 py-7 max-w-2xl mx-auto overflow-hidden"
 				>
 					<div
 						className="absolute m-10 top-0 right-0 opacity-10 text-9xl select-none"

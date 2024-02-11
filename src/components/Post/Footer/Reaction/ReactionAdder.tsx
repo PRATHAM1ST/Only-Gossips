@@ -76,7 +76,7 @@ export default function ReactionAdder({
 	};
 
 	return (
-		<div className="relative add-reaction bg-black text-white rounded-full w-8 h-8 flex items-center cursor-pointer">
+		<div className="relative add-reaction bg-black dark:bg-white text-white dark:text-black rounded-full w-8 h-8 flex items-center cursor-pointer">
 			<HoverCard>
 				<HoverCardTrigger className="w-full h-full flex items-center justify-center ">
 					<AddOutlinedIcon className="m-auto" />
