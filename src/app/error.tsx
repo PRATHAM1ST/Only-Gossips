@@ -1,7 +1,9 @@
 "use client"; // Error components must be Client Components
 
+import { Button } from "@/components/ui/button";
 import HomeIcon from "@mui/icons-material/Home";
 import ReplayIcon from "@mui/icons-material/Replay";
+import Link from "next/link";
 import { useEffect } from "react";
 
 export default function Error({
@@ -23,18 +25,21 @@ export default function Error({
 					Something went wrong!
 				</h1>
 				<div className="flex gap-10">
-					<a
-						href="/"
-						className="text-2xl align-middle font-bold px-4 py-1 text-white bg-sky-500 hover:bg-sky-700 mx-auto rounded text-center mt-11"
-					>
-						<HomeIcon /> Home
-					</a>
-					<button
+					<Button>
+						<Link
+							href="/"
+							// className="text-2xl align-middle font-bold px-4 py-1 text-white bg-sky-500 hover:bg-sky-700 mx-auto rounded text-center mt-11"
+						>
+							<HomeIcon /> Home
+						</Link>
+					</Button>
+
+					<Button
 						onClick={reset}
-						className="text-2xl align-middle font-bold px-4 py-1 text-white bg-sky-500 hover:bg-sky-700 mx-auto rounded text-center mt-11"
+						// className="text-2xl align-middle font-bold px-4 py-1 text-white bg-sky-500 hover:bg-sky-700 mx-auto rounded text-center mt-11"
 					>
 						<ReplayIcon /> Try Again
-					</button>
+					</Button>
 				</div>
 			</div>
 		</div>

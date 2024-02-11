@@ -1,38 +1,29 @@
-import Header from "../../../components/Header";
-import {
-	GossipsType,
-	getGossips,
-	GossipsResponseType,
-} from "@/utils/Gossip/getGossips";
-import Pagination from "@/components/Pagination";
-import { ReactionsType, getReactions } from "@/utils/Reaction/getReactions";
-import Image from "@/components/Image";
-import PostFooter from "@/components/Post/Footer/PostFooter";
-import Share from "@/components/Post/Share";
+"use client";
+
+import { GossipsType } from "@/utils/Gossip/getGossips";
+import Masonry from "react-masonry-css";
+import Share from "./Post/Share";
 import {
 	Carousel,
 	CarouselContent,
-	CarouselItem,
 	CarouselNext,
 	CarouselPrevious,
-} from "@/components/ui/carousel";
+	CarouselItem,
+} from "./ui/carousel";
+import Image from "next/image";
+import PostFooter from "./Post/Footer/PostFooter";
 
-export default async function Home({ params }: { params: { page: number } }) {
-	const gossipsResponse: GossipsResponseType = await getGossips({
-		pageNumber: params.page,
-	});
-
-	const gossips = gossipsResponse.data;
-
-	const reactions: ReactionsType[] = await getReactions();
-
+export default function PostObject({gossips, reactions} : {gossips: any, reactions: any}) {
 	return (
-		<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
-			<Header />
+		<Masonry
+			breakpointCols={2}
+			className="my-masonry-grid"
+			columnClassName="my-masonry-grid_column"
+		>
 			{gossips.map((gossip: GossipsType) => (
 				<div
 					key={gossip.id}
-					className="relative container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto overflow-hidden"
+					className="relative container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto overflow-hidden h-fit"
 				>
 					<div
 						className="absolute m-10 top-0 right-0 opacity-10 text-9xl select-none"
@@ -80,12 +71,12 @@ export default async function Home({ params }: { params: { page: number } }) {
 										)
 									)}
 								</CarouselContent>
-								{gossip.images?.length > 1 &&
+								{gossip.images?.length > 1 && (
 									<>
 										<CarouselPrevious />
 										<CarouselNext />
 									</>
-								}
+								)}
 							</Carousel>
 						</div>
 					)}
@@ -97,10 +88,6 @@ export default async function Home({ params }: { params: { page: number } }) {
 					<PostFooter gossip={gossip} reactions={reactions} />
 				</div>
 			))}
-			<Pagination
-				currentPage={params.page}
-				totalPagesCount={Number(gossipsResponse.totalGossipsPages)}
-			/>
-		</div>
+		</Masonry>
 	);
 }

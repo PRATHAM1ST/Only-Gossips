@@ -13,6 +13,7 @@ import { DeleteImage } from "./components/delete";
 import CloseIcon from "@mui/icons-material/Close";
 import { addTempImageUpload } from "@/utils/Temp/addTempImageUpload";
 import { removeTempImageUpload } from "@/utils/Temp/removeTempImageUpload";
+import { Button } from "@/components/ui/button";
 
 type Reactions = {
 	id: string;
@@ -236,29 +237,30 @@ export default function New() {
 						<span className="text-xs font-light">(Optional)</span>
 					</label>
 					<div className="flex gap-3 items-center">
-						<CldUploadButton
-							uploadPreset="gossip"
-							className="bg-black hover:bg-slate-900 text-white py-1 px-3 my-3 text-sm rounded"
-							onUpload={handleUpload}
-							options={{
-								clientAllowedFormats: [
-									"png",
-									"gif",
-									"jpeg",
-									"jpg",
-									"webp",
-									"heic",
-									"heif",
-								],
-								sources: [
-									"local",
-									"camera",
-									"google_drive",
-									"instagram",
-									"facebook",
-								],
-							}}
-						/>
+						<Button>
+							<CldUploadButton
+								uploadPreset="gossip"
+								onUpload={handleUpload}
+								options={{
+									clientAllowedFormats: [
+										"png",
+										"gif",
+										"jpeg",
+										"jpg",
+										"webp",
+										"heic",
+										"heif",
+									],
+									sources: [
+										"local",
+										"camera",
+										"google_drive",
+										"instagram",
+										"facebook",
+									],
+								}}
+							/>
+						</Button>
 						<div className="flex gap-6 flex-wrap my-4 items-center ease-in-out duration-300">
 							{uploadResponses?.map((uploadResponse) => (
 								<div
@@ -299,12 +301,7 @@ export default function New() {
 					</div>
 				</div>
 
-				<button
-					className={`bg-sky-500 text-white rounded-md px-2 text-lg font-bold h-fit py-2 hover:bg-sky-700 mb-24 ease-in-out duration-300`}
-					type="submit"
-				>
-					Submit
-				</button>
+				<Button type="submit">Submit</Button>
 			</form>
 		</div>
 	);

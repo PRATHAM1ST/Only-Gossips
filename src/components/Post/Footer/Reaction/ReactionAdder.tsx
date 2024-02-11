@@ -4,6 +4,11 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { ReactionsType } from "@/utils/Reaction/getReactions";
 import { addPostReaction } from "@/utils/Gossip/Reaction/addPostReaction";
 import { removePostReaction } from "@/utils/Gossip/Reaction/removePostReaction";
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 export default function ReactionAdder({
 	userId,
@@ -25,7 +30,6 @@ export default function ReactionAdder({
 	setPostReactions: any;
 	setReactionsOnPostCount: any;
 }) {
-	
 	const handleAddingReaction = (reactionId: string) => {
 		if (!userId) return;
 		console.log("adding reaction");
@@ -38,7 +42,9 @@ export default function ReactionAdder({
 				if (!res.success) {
 					throw res.message;
 				}
-				setReactionsOnPostCount((prev: number) => currentReaction === null ? (prev += 1) : prev)
+				setReactionsOnPostCount((prev: number) =>
+					currentReaction === null ? (prev += 1) : prev
+				);
 				setCurrentReaction({
 					id: String(res.reactionId),
 					emojie: String(res.emojie),
@@ -62,7 +68,7 @@ export default function ReactionAdder({
 					throw res.message;
 				}
 				setCurrentReaction(null);
-				setReactionsOnPostCount((prev: number) => (prev -= 1))
+				setReactionsOnPostCount((prev: number) => (prev -= 1));
 			})
 			.catch((err) => {
 				console.log("err", err);
@@ -71,26 +77,31 @@ export default function ReactionAdder({
 
 	return (
 		<div className="relative add-reaction bg-black text-white rounded-full w-8 h-8 flex items-center cursor-pointer">
-			<label className="absolute right-8 px-4 py-2 rounded-lg shadow-xl bg-white justify-self-start">
-				{reactions.map((reaction: ReactionsType) => (
-					<span
-						key={reaction.id}
-						className="cursor-pointer hover:text-5xl ease-in-out duration-100 align-baseline"
-						onClick={() => handleAddingReaction(reaction.id)}
-					>
-						{currentReaction?.id === reaction.id
-							? ""
-							: reaction.emojie}
-					</span>
-				))}
-			</label>
+			<HoverCard>
+				<HoverCardTrigger className="w-full h-full flex items-center justify-center ">
+					<AddOutlinedIcon className="m-auto" />
+				</HoverCardTrigger>
+				<HoverCardContent>
+					{reactions.map((reaction: ReactionsType) => (
+						<span
+							key={reaction.id}
+							className="cursor-pointer hover:text-5xl ease-in-out duration-100 align-baseline"
+							onClick={() => handleAddingReaction(reaction.id)}
+						>
+							{currentReaction?.id === reaction.id
+								? ""
+								: reaction.emojie}
+						</span>
+					))}
+				</HoverCardContent>
+			</HoverCard>
 
 			{currentReaction ? (
 				<div onClick={handleRemoveUserReaction}>
 					{currentReaction.emojie}
 				</div>
 			) : (
-				<AddOutlinedIcon className="m-auto" />
+				<></>
 			)}
 		</div>
 	);
