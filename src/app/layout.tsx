@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import AuthSetter from "../components/Auth/AuthSetter";
 import { inter } from "./fonts";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
 	title: "Only Gossips",
@@ -19,7 +20,14 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				{children}
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					{children}
+				</ThemeProvider>
 				<AuthSetter />
 			</body>
 		</html>

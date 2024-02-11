@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { gotham, margurite } from "@/app/fonts";
 import { Button } from "./ui/button";
+import { ThemeToggle } from "./ui/toggle-theme";
 
 export default function Header({ removeAdder = false }) {
 	return (
@@ -11,15 +12,18 @@ export default function Header({ removeAdder = false }) {
 					Gossips
 				</span>
 			</Link>
-			{removeAdder ? (
-				<div onClick={() => window.history.back()}>
-					<Button variant={"destructive"}>Cancel</Button>
-				</div>
-			) : (
-				<Link href="/new">
-					<Button>Add Gossip</Button>
-				</Link>
-			)}
+			<div className="flex gap-3 justify-center items-center">
+				<ThemeToggle />
+				{removeAdder ? (
+					<div onClick={() => window.history.back()}>
+						<Button variant={"destructive"}>Cancel</Button>
+					</div>
+				) : (
+					<Link href="/new">
+						<Button>Add Gossip</Button>
+					</Link>
+				)}
+			</div>
 		</header>
 	);
 }
