@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import HomeIcon from "@mui/icons-material/Home";
+import Link from "next/link";
 
 export default async function NotFound() {
 	return (
@@ -11,15 +12,16 @@ export default async function NotFound() {
 				<h3 className="text-lg font-bold text-center text-slate-500">
 					Could not find requested resource
 				</h3>
-				<Button>
-
-				<a
-					href="/"
-					className="text-2xl align-middle font-bold px-4 py-1 text-white bg-sky-500 hover:bg-sky-700 mx-auto rounded text-center mt-11"
+				<Button
+					className="mt-5"
+				>
+					<Link
+						href="/"
+						// className="text-2xl align-middle font-bold px-4 py-1 text-white bg-sky-500 hover:bg-sky-700 mx-auto rounded text-center mt-11"
 					>
-					<HomeIcon /> Home
-				</a>
-					</Button>
+						<HomeIcon /> Home
+					</Link>
+				</Button>
 			</div>
 		</div>
 	);
