@@ -32,6 +32,7 @@ export default async function RootLayout({
 						>
 							{children}
 						</ThemeProvider>
+						<AuthSetter />
 					</>
 				</NextAuthProvider>
 			</body>

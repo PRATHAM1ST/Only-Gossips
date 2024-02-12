@@ -21,6 +21,7 @@ import {
 } from "unique-names-generator";
 import { randomUUID } from "crypto";
 import Debug from "debug";
+import { createUser } from "@/utils/User/createUser";
 const debug = Debug("nextjs:api:auth");
 
 export const authOptions: AuthOptions = {
@@ -118,6 +119,7 @@ export { handler as GET, handler as POST };
 
 const createAnonymousUser = (): User => {
 	// generate a random name and email for this anonymous user
+
 	const customConfig: Config = {
 		dictionaries: [adjectives, colors, animals],
 		separator: "-",
@@ -125,13 +127,23 @@ const createAnonymousUser = (): User => {
 		style: "capital",
 	};
 	// handle is simple-red-aardvark
-	const unique_handle: string = uniqueNamesGenerator(customConfig).replaceAll(
+	const unique_handle = uniqueNamesGenerator(customConfig).replaceAll(
 		" ",
 		""
 	);
 	// real name is Red Aardvark
-	const unique_realname: string = unique_handle.split("-").slice(1).join(" ");
-	const unique_uuid: string = randomUUID();
+	const unique_realname = unique_handle.split("-").slice(1).join(" ");
+	const unique_uuid = randomUUID();
+
+	const email = `${unique_handle.toLowerCase()}@example.com`;
+
+	createUser({
+		email: email,
+		name: unique_realname,
+	}).catch((e) => {
+		console.log("error in creating the user", e);
+	});
+
 	return {
 		id: unique_uuid,
 		email: `${unique_handle.toLowerCase()}@example.com`,

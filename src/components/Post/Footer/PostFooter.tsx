@@ -5,6 +5,7 @@ import Report from "./Report";
 import ViewsIncrementer from "./Views";
 import { GossipsType } from "@/utils/Gossip/getGossips";
 import { ReactionsType } from "@/utils/Reaction/getReactions";
+import { useSession } from "next-auth/react";
 
 export default function PostFooter({
 	gossip,
@@ -19,6 +20,8 @@ export default function PostFooter({
 
 	// Get userId from localStorage and set it in state
 	const [userId, setUserId] = useState<string>("");
+
+	const { data: session } = useSession();
 
 	useEffect(() => {
 		const storedUserId = localStorage.getItem("userId");

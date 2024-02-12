@@ -7,13 +7,14 @@ export default function AnonymousSessionProvider({
     children: ReactNode
 }) {
     const {data: session, status} = useSession();
-    console.log(session);
+    
     useEffect(() => {
         if (status === "unauthenticated") {
             // login as anonymous
             signIn("credentials")
                 .then((data) => {
                     // async sign-in returned
+
                 });
         }
     }, [status]);

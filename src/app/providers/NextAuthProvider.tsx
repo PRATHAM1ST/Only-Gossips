@@ -1,6 +1,6 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { ReactNode } from "react";
 import AnonymousSessionProvider from "@/components/Auth/AnonymousSessionProvider";
 
@@ -9,6 +9,7 @@ export default function NextAuthProvider({
 }: {
 	children: ReactNode;
 }) {
+	
 	return (
 		<>
 			<SessionProvider>
