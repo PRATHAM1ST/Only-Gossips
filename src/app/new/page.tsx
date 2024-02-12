@@ -79,7 +79,6 @@ export default function New() {
 		const public_id = uploadResponse.info.public_id;
 		const tempid = uploadResponse.tempid;
 		const res = await DeleteImage(public_id);
-		console.log("res", res);
 		if (res?.status) {
 			setUploadResponses((prev) =>
 				prev.filter((upload) => upload.info.public_id !== public_id)

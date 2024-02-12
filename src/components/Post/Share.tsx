@@ -30,22 +30,36 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Share({ id, title }: { id: string; title: string }) {
-	const [openPannel, setOpenPannel] = useState(false);
 	const shareUrl = `https://onlygossips.pratham-chudasama.co/view/${id}`;
 	const message = `Watch this Gossip on OnlyGossips\n\n${title}\n\nTell use what you think about this gossip.\nComment on OnlyGossips\n`;
 	return (
-		<div className="relative w-12 flex justify-center items-center">
+		<div>
 			<Dialog>
-				<DialogTrigger>
-					<ShareRoundedIcon
-						fontSize="large"
-						className="text-9xl cursor-pointer"
-						onClick={() => {
-							setOpenPannel(true);
-						}}
-					/>
+				<DialogTrigger className="aspect-square absolute left-full top-0 translate-y-2/4 -translate-x-2/4 ">
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger>
+								<Badge variant={"outline"} className="flex justify-center items-center bg-white dark:bg-slate-950 p-4">
+									<ShareRoundedIcon
+										fontSize="large"
+										className="-translate-x-[5%]"
+									/>
+								</Badge>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>Share this Post</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				</DialogTrigger>
 				<DialogContent>
 					<DialogHeader>
@@ -90,15 +104,17 @@ export default function Share({ id, title }: { id: string; title: string }) {
 								<EmailIcon />
 							</EmailShareButton>
 						</div>
-						<br/>
-						<DialogTitle>Share this post to others too...</DialogTitle>
+						<br />
+						<DialogTitle>
+							Share this post to others too...
+						</DialogTitle>
 						<DialogDescription>
 							Watch this Gossip on OnlyGossips
-							<br/>
+							<br />
 							{title}
-							<br/>
+							<br />
 							Tell use what you think about this gossip.
-							<br/>
+							<br />
 							Comment on OnlyGossips
 						</DialogDescription>
 					</DialogHeader>

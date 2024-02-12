@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+const requestIp = require("request-ip");
 
 export default async function Home({ params }: { params: { page: number } }) {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -66,12 +67,9 @@ export default async function Home({ params }: { params: { page: number } }) {
 								}
 							)}
 						</Badge>
-						<Badge
-							className="aspect-square absolute left-full top-0 translate-y-2/4 -translate-x-2/4 flex justify-center items-center bg-white dark:bg-slate-950"
-							variant={"outline"}
-						>
-							<Share id={gossip.id} title={gossip.title} />
-						</Badge>
+
+						<Share id={gossip.id} title={gossip.title} />
+
 						{!!gossip.images?.length && (
 							<div className="gossip-images flex gap-3 flex-wrap m-auto">
 								<Carousel>

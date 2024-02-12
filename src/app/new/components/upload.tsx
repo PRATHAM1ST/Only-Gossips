@@ -85,7 +85,6 @@ export default function Upload() {
 			"https://api.cloudinary.com/v1_1/gossip/image/destroy",
 			formData
 		);
-        console.log(res);
 	};
 
 	return (

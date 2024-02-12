@@ -2,6 +2,8 @@
 
 import { PrismaClient } from "@prisma/client";
 
+import StaticGossips from "../../static_data/gossip.Post.json";
+
 const prisma = new PrismaClient();
 
 export type GossipsType = {
@@ -63,8 +65,6 @@ export async function getGossips({ pageNumber }: { pageNumber: number }): Promis
 		},
 	});
 
-	console.log('data: ', data);
-
 	// const views = await prisma.view.count({
 	// 	where: {
 	// 		postId: data.map((post) => post.id),
@@ -86,4 +86,29 @@ export async function getGossips({ pageNumber }: { pageNumber: number }): Promis
 	};
 
 	return response;
+}
+
+type StaticGossipsType = typeof StaticGossips;
+
+export async function getStaticGossips(){
+	const data: StaticGossipsType = StaticGossips;
+
+	// give posts in reverse order based on created date and return in the same format as prisma
+	const response = {
+		gossipsPerPage: 5,
+		totalGossipsPages: 1,
+		data: data.map((post) => {
+			return {
+				id: post._id.$oid,
+				title: post.title,
+				content: post.content,
+				createdAt: new Date(post.createdAt.$date),
+				backgroundEmoji: post.backgroundEmoji,
+				totalReactions: post.totalReactions,
+				reactions: post.reactions,
+				images: post.images,
+				views: 0,
+			};
+		}),
+	};
 }

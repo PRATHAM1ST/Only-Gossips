@@ -1,5 +1,6 @@
 "use client";
-
+import { HeartIcon } from "@radix-ui/react-icons";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { ReactionsType } from "@/utils/Reaction/getReactions";
 import { addPostReaction } from "@/utils/Gossip/Reaction/addPostReaction";
@@ -9,6 +10,7 @@ import {
 	HoverCardContent,
 	HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { Button } from "@/components/ui/button";
 
 export default function ReactionAdder({
 	userId,
@@ -75,17 +77,34 @@ export default function ReactionAdder({
 			});
 	};
 
+	const addHeartIcon = () => {
+		// check if user is using tablet or mobile using navigator
+		// if true, return
+		if (window.innerWidth < 768) return;
+		handleAddingReaction(
+			reactions.find((reaction) => reaction.emojie === "❤️")?.id ?? ""
+		);
+	};
+
 	return (
-		<div className="relative add-reaction bg-black dark:bg-white text-white dark:text-black rounded-full w-8 h-8 flex items-center cursor-pointer">
+		<Button
+			className="relative add-reaction rounded-full overflow-hidden p-0"
+			variant={"outline"}
+		>
 			<HoverCard>
-				<HoverCardTrigger className="w-full h-full flex items-center justify-center ">
-					<AddOutlinedIcon className="m-auto" />
+				<HoverCardTrigger className="w-full h-full flex items-center aspect-square justify-center">
+					{/* <AddOutlinedIcon className="m-auto" /> */}
+					<FavoriteBorderIcon onClick={addHeartIcon} />
+					{/* <HeartIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"/> */}
 				</HoverCardTrigger>
-				<HoverCardContent>
+				<HoverCardContent
+					side="top"
+					className="flex gap-4"
+				>
 					{reactions.map((reaction: ReactionsType) => (
 						<span
 							key={reaction.id}
-							className="cursor-pointer hover:text-5xl ease-in-out duration-100 align-baseline"
+							className="cursor-pointer text-2xl hover:scale-125 ease-in-out duration-100 align-baseline"
 							onClick={() => handleAddingReaction(reaction.id)}
 						>
 							{currentReaction?.id === reaction.id
@@ -103,6 +122,6 @@ export default function ReactionAdder({
 			) : (
 				<></>
 			)}
-		</div>
+		</Button>
 	);
 }
