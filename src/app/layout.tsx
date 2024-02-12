@@ -2,6 +2,9 @@ import "./globals.css";
 import type { Metadata } from "next";
 import AuthSetter from "../components/Auth/AuthSetter";
 import { inter } from "./fonts";
+import { ThemeProvider } from "@/components/theme-provider";
+import NextAuthProvider from "./providers/NextAuthProvider";
+import { getServerSession } from "next-auth";
 
 export const metadata: Metadata = {
 	title: "Only Gossips",
@@ -11,7 +14,7 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
@@ -19,8 +22,19 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				{children}
-				<AuthSetter />
+				<NextAuthProvider>
+					<>
+						<ThemeProvider
+							attribute="class"
+							defaultTheme="system"
+							enableSystem
+							disableTransitionOnChange
+						>
+							{children}
+						</ThemeProvider>
+						<AuthSetter />
+					</>
+				</NextAuthProvider>
 			</body>
 		</html>
 	);

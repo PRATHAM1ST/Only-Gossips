@@ -1,9 +1,22 @@
 "use client";
-
+import { HeartIcon } from "@radix-ui/react-icons";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { ReactionsType } from "@/utils/Reaction/getReactions";
 import { addPostReaction } from "@/utils/Gossip/Reaction/addPostReaction";
 import { removePostReaction } from "@/utils/Gossip/Reaction/removePostReaction";
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Button } from "@/components/ui/button";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function ReactionAdder({
 	userId,
@@ -25,7 +38,6 @@ export default function ReactionAdder({
 	setPostReactions: any;
 	setReactionsOnPostCount: any;
 }) {
-	
 	const handleAddingReaction = (reactionId: string) => {
 		if (!userId) return;
 		console.log("adding reaction");
@@ -38,7 +50,9 @@ export default function ReactionAdder({
 				if (!res.success) {
 					throw res.message;
 				}
-				setReactionsOnPostCount((prev: number) => currentReaction === null ? (prev += 1) : prev)
+				setReactionsOnPostCount((prev: number) =>
+					currentReaction === null ? (prev += 1) : prev
+				);
 				setCurrentReaction({
 					id: String(res.reactionId),
 					emojie: String(res.emojie),
@@ -62,36 +76,64 @@ export default function ReactionAdder({
 					throw res.message;
 				}
 				setCurrentReaction(null);
-				setReactionsOnPostCount((prev: number) => (prev -= 1))
+				setReactionsOnPostCount((prev: number) => (prev -= 1));
 			})
 			.catch((err) => {
 				console.log("err", err);
 			});
 	};
 
-	return (
-		<div className="relative add-reaction bg-black text-white rounded-full w-8 h-8 flex items-center cursor-pointer">
-			<label className="absolute right-8 px-4 py-2 rounded-lg shadow-xl bg-white justify-self-start">
-				{reactions.map((reaction: ReactionsType) => (
-					<span
-						key={reaction.id}
-						className="cursor-pointer hover:text-5xl ease-in-out duration-100 align-baseline"
-						onClick={() => handleAddingReaction(reaction.id)}
-					>
-						{currentReaction?.id === reaction.id
-							? ""
-							: reaction.emojie}
-					</span>
-				))}
-			</label>
+	const addHeartIcon = () => {
+		// check if user is using tablet or mobile using navigator
+		// if true, return
+		if (window.innerWidth < 768) return;
+		handleAddingReaction(
+			reactions.find((reaction) => reaction.emojie === "❤️")?.id ?? ""
+		);
+	};
 
-			{currentReaction ? (
-				<div onClick={handleRemoveUserReaction}>
-					{currentReaction.emojie}
-				</div>
-			) : (
-				<AddOutlinedIcon className="m-auto" />
-			)}
-		</div>
+	return (
+		<Button
+			className="relative add-reaction rounded-full overflow-hidden p-0"
+			variant={"outline"}
+		>
+			<HoverCard>
+				<HoverCardTrigger className="w-full h-full flex items-center aspect-square justify-center">
+					{/* <AddOutlinedIcon className="m-auto" /> */}
+
+					{currentReaction ? (
+						<div onClick={handleRemoveUserReaction}>
+							{currentReaction.emojie}
+						</div>
+					) : (
+						<FavoriteBorderIcon onClick={addHeartIcon} />
+					)}
+					{/* <HeartIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"/> */}
+				</HoverCardTrigger>
+				<HoverCardContent side="top" className="flex gap-4">
+					{reactions.map((reaction: ReactionsType) => (
+						<TooltipProvider key={reaction.id}>
+							<Tooltip>
+								<TooltipTrigger className="cursor-pointer text-2xl hover:scale-150 origin-bottom ease-in-out duration-100 align-baseline">
+									<span
+										className="cursor-pointer text-2xl hover:scale-125 ease-in-out duration-100 align-baseline"
+										onClick={() =>
+											handleAddingReaction(reaction.id)
+										}
+									>
+										{currentReaction?.id === reaction.id
+											? ""
+											: reaction.emojie}
+									</span>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>{reaction?.id}</p>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
+					))}
+				</HoverCardContent>
+			</HoverCard>
+		</Button>
 	);
 }

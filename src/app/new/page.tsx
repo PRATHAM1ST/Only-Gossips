@@ -13,6 +13,8 @@ import { DeleteImage } from "./components/delete";
 import CloseIcon from "@mui/icons-material/Close";
 import { addTempImageUpload } from "@/utils/Temp/addTempImageUpload";
 import { removeTempImageUpload } from "@/utils/Temp/removeTempImageUpload";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Reactions = {
 	id: string;
@@ -77,7 +79,6 @@ export default function New() {
 		const public_id = uploadResponse.info.public_id;
 		const tempid = uploadResponse.tempid;
 		const res = await DeleteImage(public_id);
-		console.log("res", res);
 		if (res?.status) {
 			setUploadResponses((prev) =>
 				prev.filter((upload) => upload.info.public_id !== public_id)
@@ -155,10 +156,10 @@ export default function New() {
 					<label htmlFor="title" className="font-bold">
 						Title of the Gossip*
 					</label>
-					<input
+					<Input
 						id="title"
 						type="text"
-						className="border-2 border-black rounded px-4 py-1"
+						className="border-2 border-black dark:border-slate-500 dark:bg-slate-900 rounded px-4 py-1"
 						data-title="Title of the Gossip"
 						name="title"
 						disabled={postingDataLoading}
@@ -181,7 +182,11 @@ export default function New() {
 							postingDataLoading
 								? "cursor-not-allowed select-none"
 								: ""
-						}`}
+						}
+						dark:border-slate-500
+						dark:bg-slate-900
+						dark:text-white
+						`}
 						theme="snow"
 						value={gossip}
 						onChange={setGossip}
@@ -235,10 +240,10 @@ export default function New() {
 						Upload Image(s){" "}
 						<span className="text-xs font-light">(Optional)</span>
 					</label>
-					<div className="flex gap-3 items-center">
+					<div className="flex gap-3 items-center my-3">
 						<CldUploadButton
+							className="p-20 outline-dashed dark:outline-slate-500 rounded dark:bg-slate-900 bg-slate-100"
 							uploadPreset="gossip"
-							className="bg-black hover:bg-slate-900 text-white py-1 px-3 my-3 text-sm rounded"
 							onUpload={handleUpload}
 							options={{
 								clientAllowedFormats: [
@@ -299,12 +304,7 @@ export default function New() {
 					</div>
 				</div>
 
-				<button
-					className={`bg-sky-500 text-white rounded-md px-2 text-lg font-bold h-fit py-2 hover:bg-sky-700 mb-24 ease-in-out duration-300`}
-					type="submit"
-				>
-					Submit
-				</button>
+				<Button className="my-5 mb-8" type="submit">Submit</Button>
 			</form>
 		</div>
 	);

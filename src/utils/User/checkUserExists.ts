@@ -4,14 +4,14 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function checkUserExists(id: string) {
+export async function checkUserExists(email: string) {
 	try {
-		await prisma.user.findUnique({
+		const data = await prisma.user.findUnique({
 			where: {
-				id: id,
+				email: email,
 			},
 		});
-		return true;
+		return data?.id as string;
 	} catch (e) {
 		return false;
 	}
