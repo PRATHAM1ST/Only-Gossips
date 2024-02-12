@@ -24,7 +24,7 @@ import Debug from "debug";
 import { createUser } from "@/utils/User/createUser";
 const debug = Debug("nextjs:api:auth");
 
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
 	providers: [
 		CredentialsProvider({
 			name: "anonymous",
