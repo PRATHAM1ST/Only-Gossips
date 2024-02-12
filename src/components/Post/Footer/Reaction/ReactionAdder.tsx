@@ -100,7 +100,14 @@ export default function ReactionAdder({
 			<HoverCard>
 				<HoverCardTrigger className="w-full h-full flex items-center aspect-square justify-center">
 					{/* <AddOutlinedIcon className="m-auto" /> */}
-					<FavoriteBorderIcon onClick={addHeartIcon} />
+
+					{currentReaction ? (
+						<div onClick={handleRemoveUserReaction}>
+							{currentReaction.emojie}
+						</div>
+					) : (
+						<FavoriteBorderIcon onClick={addHeartIcon} />
+					)}
 					{/* <HeartIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"/> */}
 				</HoverCardTrigger>
 				<HoverCardContent side="top" className="flex gap-4">
@@ -127,14 +134,6 @@ export default function ReactionAdder({
 					))}
 				</HoverCardContent>
 			</HoverCard>
-
-			{currentReaction ? (
-				<div onClick={handleRemoveUserReaction}>
-					{currentReaction.emojie}
-				</div>
-			) : (
-				<></>
-			)}
 		</Button>
 	);
 }
