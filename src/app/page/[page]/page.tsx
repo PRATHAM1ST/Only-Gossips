@@ -18,7 +18,12 @@ import {
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-const requestIp = require("request-ip");
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default async function Home({ params }: { params: { page: number } }) {
 	const gossipsResponse: GossipsResponseType = await getGossips({
@@ -71,7 +76,7 @@ export default async function Home({ params }: { params: { page: number } }) {
 						<Share id={gossip.id} title={gossip.title} />
 
 						{!!gossip.images?.length && (
-							<div className="gossip-images flex gap-3 flex-wrap m-auto">
+							<div className="gossip-images flex gap-3 flex-wrap m-auto outline-dashed rounded-md">
 								<Carousel>
 									<CarouselContent>
 										{gossip.images?.map(

@@ -14,6 +14,12 @@ import {
 	DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Textarea } from "@/components/ui/textarea";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Report({
 	postId,
@@ -58,20 +64,26 @@ export default function Report({
 			{/* create a model which pop up when report button clicks */}
 			<Drawer>
 				<DrawerTrigger>
-					<Button
-						variant={"outline"}
-						size={"sm"}
-						className="report border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-						onClick={() => setReportModal(true)}
-					>
-						Report
-					</Button>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger>
+								<Button
+									variant={"outline"}
+									size={"sm"}
+									className="report border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+									onClick={() => setReportModal(true)}
+								>
+									Report
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent sideOffset={10}>
+								<p>Report this post</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				</DrawerTrigger>
 				<DrawerContent>
-					<form
-						className="m-auto"
-						onSubmit={handleAddReport}
-					>
+					<form className="m-auto" onSubmit={handleAddReport}>
 						<DrawerHeader>
 							<DrawerTitle>Are you absolutely sure?</DrawerTitle>
 							<DrawerDescription>
@@ -89,7 +101,9 @@ export default function Report({
 							</DrawerDescription>
 						</DrawerHeader>
 						<DrawerFooter>
-							<Button type="submit" variant={"destructive"}>Submit</Button>
+							<Button type="submit" variant={"destructive"}>
+								Submit
+							</Button>
 							<DrawerClose>
 								<Button
 									variant="outline"
