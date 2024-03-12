@@ -8,7 +8,8 @@ export default function Header({ removeAdder = false }) {
 		<header className="flex justify-between items-center my-5">
 			<Link href="/" className={"text-3xl"}>
 				<span className={gotham.className}>Only</span>
-				<span className={margurite.className + " text-sky-500"}>
+				{/* <span className={margurite.className + " text-sky-500"}> */}
+				<span className={margurite.className + " text-green-900"}>
 					Gossips
 				</span>
 			</Link>

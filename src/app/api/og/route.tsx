@@ -26,7 +26,8 @@ export async function GET() {
 					tw="leading-none -mb-14"
 					style={{
 						fontFamily: '"margurite"',
-						color: "rgb(14 165 233)",
+						// color: "rgb(14 165 233)",
+						color: "rgb(20 83 45)"
 					}}
 				>
 					Gossips
