@@ -21,12 +21,12 @@ export default function Home() {
 							</p>
 						</div>
 						<div className="flex flex-wrap gap-3">
-							<Button size="lg">
-								<Link href={"/page/1"}>Get Started</Link>
-							</Button>
-							<Button size="lg" variant={"outline"}>
-								Add Gossip
-							</Button>
+							<Link href={"/page/1"}>
+								<Button size="lg">Get Started</Button>
+							</Link>
+							<Link href={"/new"}>
+								<Button size="lg" variant={"outline"}>Add Gossip</Button>
+							</Link>
 						</div>
 					</div>
 				</section>
