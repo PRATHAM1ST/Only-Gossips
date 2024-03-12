@@ -6,7 +6,7 @@ export default async function Loading() {
 		<div className="container grid gap-5 mb-5 mx-auto px-4 max-w-4xl">
 			<Header />
 			<div className="animate-pulse">
-				<div className="relative container grid gap-3 border-2 border-black rounded-2xl px-6 py-7 max-w-2xl mx-auto">
+				<div className="relative container grid gap-3 border-2 border-black dark:border-slate-500 rounded-2xl px-6 py-7 max-w-2xl mx-auto">
 					<div className="flex-1 space-y-6 py-1">
 						<div className={"h-12 rounded " + bgColor}></div>
 						<div className={"h-3 w-20 rounded " + bgColor}></div>
